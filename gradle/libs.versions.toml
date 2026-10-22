@@ -33,6 +33,7 @@ ksp = "2.0.20-1.0.25"
 youtubedlAndroid = "0.17.3"
 
 mmkv = "1.3.12"
+work = "2.10.0"
 # pin to v1.3.x for 32-bit support
 
 koin = "4.0.0"
@@ -109,6 +110,7 @@ youtubedl-android-ffmpeg = { group = "io.github.junkfood02.youtubedl-android", n
 youtubedl-android-aria2c = { group = "io.github.junkfood02.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
 
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
+androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

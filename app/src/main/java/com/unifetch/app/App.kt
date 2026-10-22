@@ -42,6 +42,8 @@ import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
+import com.unifetch.app.util.YtdlpUpdateWorker
+import kotlinx.coroutines.CompletableDeferred
 import java.io.File
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -91,6 +93,7 @@ class App : Application() {
                 YoutubeDL.init(this@App)
                 FFmpeg.init(this@App)
                 Aria2c.init(this@App)
+                ytdlpReady.complete(Unit)
                 DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
                     FileUtil.writeContentToFile(it, getCookiesFile())
                 }
@@ -107,6 +110,7 @@ class App : Application() {
             COMMAND_DIRECTORY.updateString(videoDownloadDir)
         }
         if (Build.VERSION.SDK_INT >= 26) NotificationUtil.createNotificationChannel()
+        YtdlpUpdateWorker.schedule(this)
 
         Thread.setDefaultUncaughtExceptionHandler { _, e -> startCrashReportActivity(e) }
     }
@@ -128,6 +132,9 @@ class App : Application() {
         lateinit var videoDownloadDir: String
         lateinit var audioDownloadDir: String
         lateinit var applicationScope: CoroutineScope
+
+        /** Completes once yt-dlp, FFmpeg and aria2c are set up at startup. */
+        val ytdlpReady = CompletableDeferred<Unit>()
         lateinit var connectivityManager: ConnectivityManager
         lateinit var packageInfo: PackageInfo
 

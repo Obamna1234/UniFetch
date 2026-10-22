@@ -194,6 +194,8 @@ dependencies {
 
     implementation(libs.mmkv)
 
+    implementation(libs.androidx.work.runtime)
+
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
