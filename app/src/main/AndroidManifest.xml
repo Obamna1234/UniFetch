@@ -30,7 +30,9 @@
 
     <application
         android:name=".App"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
         android:enableOnBackInvokedCallback="true"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
@@ -39,6 +41,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".LockActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Seal"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".CrashReportActivity"
             android:exported="false"
