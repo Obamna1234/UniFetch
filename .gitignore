@@ -1,20 +1,41 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/deploymentTargetDropDown.xml
-/.idea/shelf
-.DS_Store
-/build
+# ---- Secrets: never commit these ----
+# Signing keys and their passwords (they live in GitHub Secrets instead)
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+keystore.properties
+signing.properties
+*.base64
+# Local machine settings (SDK paths, sometimes credentials)
+local.properties
+# Cookies and anything exported from a browser
+cookies*.txt
+*cookies*.txt
+*.cookies
+# Environment / secret files
+.env
+.env.*
+secrets/
+*.secret
+
+# ---- Build output ----
+.gradle/
+build/
 /captures
 .externalNativeBuild
 .cxx
-local.properties
-/keystore.properties
 .kotlin
+*.apk
+*.aab
+*.idsig
+output-metadata.json
+
+# ---- Editors and OS files ----
 .idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db

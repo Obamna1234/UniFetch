@@ -1,69 +1,35 @@
-name: Bug Report
-description: Create a report to help us improve
-labels: [ bug, new issue ]
+name: Bug report
+description: Something in UniFetch isn't working
+labels: [bug]
 body:
-
-
-  - type: checkboxes
-    id: checklist
+  - type: markdown
     attributes:
-      label: Checklist
-      description: |
-        Carefully read and work through this check list in order to prevent the most common mistakes and misuse of Seal/Yt-dlp:
-      options:
-        - label: I'm reporting a bug unrelated to a specific site.
-          required: false
-        - label: I've verified that I'm running the [**latest version**](https://github.com/yt-dlp/yt-dlp/releases/latest) of yt-dlp.
-          required: true
-        - label: I've verified that I'm running the latest [**stable version**](https://github.com/JunkFood02/Seal/releases/latest/) of Seal or any later [**preview versions**](https://github.com/JunkFood02/Seal/releases).
-          required: true
-        - label: I've read the [**Contributing guidelines**](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) and [**Code Of Conduct.**](https://github.com/JunkFood02/Seal/blob/main/CODE_OF_CONDUCT.md)
-          required: true
-        - label: I've checked that the site i'm trying to download from is in the [**Supported Sites**](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) list from yt-dlp
-          required: true
-        - label: I understand that the issue will be (ignored/closed) if I intentionally remove or skip any mandatory field.
-          required: true
-
+      value: |
+        Thanks for reporting! Please don't paste cookies, passwords or private links here.
   - type: textarea
+    id: what-happened
     attributes:
-      label: Describe the bug
-      description:
-      placeholder: |
-        A clear and concise description of what the bug is.
-    validations:
-      required: false
-
-  - type: textarea
-    attributes:
-      label: To Reproduce
-      placeholder: |
-        Steps to reproduce the behavior:
-        1.Go to '...'
-        2.Click on '....'
-        3.Scroll down to '....'
-        4.See error
-    validations:
-      required: false
-
-  - type: textarea
-    attributes:
-      label: Error reports
-      placeholder: |
-        Click on the displayed error report to copy it.
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
     validations:
       required: true
-
   - type: textarea
+    id: log
     attributes:
-      label: Screenshots & Screen Records
-      placeholder: |
-        Screenshots & Screen Records can amp up bug reports.
+      label: Error log
+      description: |
+        Copy it from UniFetch: tap the failed download and choose "Copy report",
+        or after a crash tap the copy button on the crash screen. Remove anything private first.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: UniFetch version
+      description: Settings → About → Version (tap it to copy device info)
     validations:
-      required: false
-
-  - type: textarea
+      required: true
+  - type: input
+    id: device
     attributes:
-      label: Additional context
-      description:
-      placeholder: |
-        Add any other context about the problem here.      
+      label: Phone and Android version
+      placeholder: e.g. Samsung Galaxy A55, Android 15

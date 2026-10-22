@@ -56,5 +56,28 @@ private const val ALPHA = VARIANT * 1
 private const val BETA = VARIANT * 2
 private const val RELEASE_CANDIDATE = VARIANT * 3
 
-val currentVersion: Version =
-    Version.Alpha(versionMajor = 2, versionMinor = 0, versionPatch = 0, versionBuild = 5)
+/** Version used for everyday (non-release) builds. Releases take their version from the git tag. */
+val currentVersion: Version = Version.Stable(versionMajor = 0, versionMinor = 1, versionPatch = 0)
+
+/**
+ * Turns a release tag such as "v1.2.3", "v1.2.3-beta.1" or "v1.2.3-rc.2" into a [Version], so
+ * pushing a tag is all that is needed to set the app's version name and version code.
+ */
+fun versionFromTag(tag: String): Version {
+    val match =
+        Regex("""^v?(\d+)\.(\d+)\.(\d+)(?:-(alpha|beta|rc)\.(\d+))?$""").matchEntire(tag.trim())
+            ?: error("Version tag '$tag' must look like v1.2.3 or v1.2.3-beta.1")
+    val (major, minor, patch, type, build) = match.destructured
+    val ma = major.toInt()
+    val mi = minor.toInt()
+    val pa = patch.toInt()
+    require(ma <= 20 && mi < 100 && pa < 100) { "Use a major number up to 20 and minor/patch below 100" }
+    val b = build.ifEmpty { "0" }.toInt()
+    require(b < 10) { "Pre-release numbers must be below 10 (e.g. beta.9)" }
+    return when (type) {
+        "alpha" -> Version.Alpha(ma, mi, pa, b)
+        "beta" -> Version.Beta(ma, mi, pa, b)
+        "rc" -> Version.ReleaseCandidate(ma, mi, pa, b)
+        else -> Version.Stable(ma, mi, pa)
+    }
+}

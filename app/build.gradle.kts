@@ -1,8 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.api.variant.FilterConfiguration
-import java.io.FileInputStream
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -14,7 +12,10 @@ plugins {
     alias(libs.plugins.ktfmt.gradle)
 }
 
-val keystorePropertiesFile: File = rootProject.file("keystore.properties")
+// Release signing. The keystore and passwords come from environment variables that the GitHub
+// release workflow fills in from GitHub Secrets. They are never stored in the repository.
+val signingKeystorePath: String? =
+    System.getenv("UNIFETCH_KEYSTORE_FILE")?.takeIf { it.isNotBlank() && file(it).exists() }
 
 val splitApks = !project.hasProperty("noSplits")
 
@@ -22,21 +23,23 @@ val abiFilterList = (properties["ABI_FILTERS"] as String).split(';')
 
 val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
-val baseVersionName = currentVersion.name
-val currentVersionCode = currentVersion.code.toInt()
+// Release builds pass the git tag (e.g. -PappVersion=v1.2.0); other builds use currentVersion.
+val appVersion =
+    (findProperty("appVersion") as String?)?.takeIf { it.isNotBlank() }?.let(::versionFromTag)
+        ?: currentVersion
+val baseVersionName = appVersion.name
+val currentVersionCode = appVersion.code.toInt()
 
 android {
     compileSdk = 35
 
-    if (keystorePropertiesFile.exists()) {
-        val keystoreProperties = Properties()
-        keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+    if (signingKeystorePath != null) {
         signingConfigs {
-            create("githubPublish") {
-                keyAlias = keystoreProperties["keyAlias"].toString()
-                keyPassword = keystoreProperties["keyPassword"].toString()
-                storeFile = file(keystoreProperties["storeFile"]!!)
-                storePassword = keystoreProperties["storePassword"].toString()
+            create("unifetch") {
+                storeFile = file(signingKeystorePath)
+                storePassword = System.getenv("UNIFETCH_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("UNIFETCH_KEY_ALIAS")
+                keyPassword = System.getenv("UNIFETCH_KEY_PASSWORD")
             }
         }
     }
@@ -47,8 +50,7 @@ android {
         applicationId = "com.unifetch.app"
         minSdk = 24
         targetSdk = 35
-        versionCode = 200_000_150
-        check(versionCode == currentVersionCode)
+        versionCode = currentVersionCode
 
         versionName = baseVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -59,7 +61,7 @@ android {
                 abi {
                     isEnable = true
                     reset()
-                    include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
+                    include("arm64-v8a", "armeabi-v7a", "x86_64")
                     isUniversalApk = true
                 }
             }
@@ -100,13 +102,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("githubPublish")
+            if (signingKeystorePath != null) {
+                signingConfig = signingConfigs.getByName("unifetch")
             }
         }
         debug {
-            if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("githubPublish")
+            // Once the signing key is set up, test builds use it too, so a newer test build can
+            // be installed over an older one without uninstalling first.
+            if (signingKeystorePath != null) {
+                signingConfig = signingConfigs.getByName("unifetch")
             }
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
@@ -136,10 +140,14 @@ android {
 
     lint { disable.addAll(listOf("MissingTranslation", "ExtraTranslation", "MissingQuantity")) }
 
+    // APK names look like UniFetch-1.2.0-arm64-v8a.apk or UniFetch-1.2.0-universal.apk.
+    // The in-app updater picks the right file by looking for the phone's ABI in the name.
     applicationVariants.all {
+        val variant = this
         outputs.all {
-            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
-                "UniFetch-${defaultConfig.versionName}-${name}.apk"
+            val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+            val abi = output.getFilter("ABI") ?: "universal"
+            output.outputFileName = "UniFetch-${variant.versionName}-$abi.apk"
         }
     }
 
