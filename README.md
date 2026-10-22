@@ -34,10 +34,10 @@ Available now (from Seal):
 - Custom yt-dlp commands and templates
 - Share a link to UniFetch from any app to start a download
 - Material You design with light and dark themes, in many languages
+- Automatic yt-dlp updates (Nightly by default), with auto-retry when a site breaks and one-tap rollback
 
 Planned (see [the build plan](#roadmap)):
 
-- Automatic yt-dlp updates (Nightly by default), with auto-retry when a site breaks
 - App lock, hidden from recents and screenshots, discreet notifications, quick wipe
 - Encrypted private vault with a built-in video player
 - Built-in private browser with up to 1000 tabs and video detection
@@ -59,7 +59,7 @@ UniFetch uses its own app ID (`com.unifetch.app`), so it installs alongside Seal
 ## Roadmap
 
 1. ✅ Fork setup: new name, app ID, icon, credits, GitHub builds
-2. Automatic yt-dlp updates and auto-retry
+2. ✅ Automatic yt-dlp updates and auto-retry
 3. Privacy basics: app lock, screenshot blocking, discreet notifications, backup exclusion, quick wipe
 4. Encrypted vault and built-in player
 5. Built-in browser with tab suspension and the 1000-tab limit

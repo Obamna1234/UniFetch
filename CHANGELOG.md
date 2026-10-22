@@ -4,6 +4,15 @@ All notable changes to UniFetch are listed here, newest first. Version numbers f
 
 ## Unreleased
 
+### Automatic yt-dlp updates (stage 2)
+
+- yt-dlp is checked for updates on every app launch, before fetching a video if the last check was over 6 hours ago, and in the background every 12 hours (on a network connection, battery not low)
+- New settings: update automatically (default), ask me first, or off; channel Nightly (default), Stable or Master
+- If a download fails because a site changed, UniFetch updates yt-dlp and retries once
+- Settings show the yt-dlp version and when it was last checked, with a "Check now" button
+- Roll back to the previous yt-dlp version if an update breaks things
+- yt-dlp is never replaced while a download is running, and updates only come from the official yt-dlp GitHub releases
+
 ### Fork setup (stage 1)
 
 - UniFetch is now its own app: new name, new app ID (`com.unifetch.app`, so it installs alongside Seal) and a new icon
