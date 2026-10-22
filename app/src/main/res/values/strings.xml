@@ -26,6 +26,22 @@
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to install the latest yt-dlp version</string>
     <string name="ytdlp_update_action">Update yt-dlp</string>
+    <string name="ytdlp_builtin">Built-in version</string>
+    <string name="ytdlp_never_checked">Not checked yet</string>
+    <string name="ytdlp_last_checked">Checked %1$s</string>
+    <string name="ytdlp_update_busy">Downloads are running. Try again when they finish.</string>
+    <string name="ytdlp_update_mode">Automatic updates</string>
+    <string name="ytdlp_mode_auto">Update automatically</string>
+    <string name="ytdlp_mode_ask">Ask me first</string>
+    <string name="ytdlp_mode_off">Off</string>
+    <string name="ytdlp_rollback">Roll back to previous version</string>
+    <string name="ytdlp_rollback_desc">Go back to %1$s. The current version is skipped until a newer one comes out.</string>
+    <string name="ytdlp_rollback_done">Rolled back to the previous yt-dlp version</string>
+    <string name="ytdlp_rollback_failed">Couldn\'t roll back. Try again when no downloads are running.</string>
+    <string name="ytdlp_update_available">yt-dlp update available</string>
+    <string name="ytdlp_update_available_msg">Version %1$s is available. Keeping yt-dlp up to date fixes most download errors.</string>
+    <string name="ytdlp_update_now">Update now</string>
+    <string name="ytdlp_not_now">Not now</string>
     <string name="delete_info">Remove?</string>
     <string name="delete_info_msg">Remove \"%1$s\" from your download history for good?
     </string>

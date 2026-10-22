@@ -100,6 +100,7 @@ import com.unifetch.app.util.SUBTITLE
 import com.unifetch.app.util.THUMBNAIL
 import com.unifetch.app.util.ToastUtil
 import com.unifetch.app.util.UpdateUtil
+import com.unifetch.app.util.YtdlpUpdateManager
 import com.unifetch.app.util.YT_DLP_VERSION
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
@@ -180,8 +181,7 @@ fun GeneralDownloadPreferences(onNavigateBack: () -> Unit, navigateToTemplate: (
                 item {
                     var ytdlpVersion by remember {
                         mutableStateOf(
-                            YoutubeDL.getInstance().version(context.applicationContext)
-                                ?: context.getString(R.string.ytdlp_update)
+                            YtdlpUpdateManager.describe()
                         )
                     }
                     PreferenceItem(
@@ -204,7 +204,7 @@ fun GeneralDownloadPreferences(onNavigateBack: () -> Unit, navigateToTemplate: (
                                 runCatching {
                                         isUpdating = true
                                         UpdateUtil.updateYtDlp()
-                                        ytdlpVersion = YT_DLP_VERSION.getString()
+                                        ytdlpVersion = YtdlpUpdateManager.describe()
                                     }
                                     .onFailure { th ->
                                         th.printStackTrace()
@@ -215,7 +215,7 @@ fun GeneralDownloadPreferences(onNavigateBack: () -> Unit, navigateToTemplate: (
                                     .onSuccess {
                                         ToastUtil.makeToastSuspend(
                                             context.getString(R.string.yt_dlp_up_to_date) +
-                                                " (${YT_DLP_VERSION.getString()})"
+                                                " (${YtdlpUpdateManager.installedVersionName()})"
                                         )
                                     }
                                 isUpdating = false

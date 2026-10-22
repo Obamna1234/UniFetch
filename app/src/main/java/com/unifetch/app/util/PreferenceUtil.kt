@@ -115,6 +115,12 @@ private const val DOWNLOAD_TYPE = "download_type"
 const val YT_DLP_UPDATE_CHANNEL = "yt-dlp_update_channel"
 const val YT_DLP_UPDATE_TIME = "yt-dlp_last_update"
 const val YT_DLP_UPDATE_INTERVAL = "yt-dlp_update_interval"
+const val YT_DLP_UPDATE_MODE = "yt-dlp_update_mode"
+const val YT_DLP_LAST_CHECK = "yt-dlp_last_check"
+const val YT_DLP_SKIPPED_TAG = "yt-dlp_skipped_tag"
+const val YT_DLP_PENDING_TAG = "yt-dlp_pending_tag"
+const val YT_DLP_BACKUP_TAG = "yt-dlp_backup_tag"
+const val YT_DLP_BACKUP_VERSION = "yt-dlp_backup_version"
 
 private const val INTERVAL_DAY = 86_400_000L
 private const val INTERVAL_WEEK = 86_400_000L * 7
@@ -154,6 +160,12 @@ const val PRE_RELEASE = 1
 
 const val YT_DLP_STABLE = 0
 const val YT_DLP_NIGHTLY = 1
+const val YT_DLP_MASTER = 2
+
+// yt-dlp update behaviour (YT_DLP_UPDATE_MODE)
+const val YT_DLP_MODE_AUTO = 0
+const val YT_DLP_MODE_ASK = 1
+const val YT_DLP_MODE_OFF = 2
 
 const val OPUS = 1
 const val M4A = 2

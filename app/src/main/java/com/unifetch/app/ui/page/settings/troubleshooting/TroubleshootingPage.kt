@@ -41,6 +41,7 @@ import com.unifetch.app.util.PreferenceUtil.getString
 import com.unifetch.app.util.PreferenceUtil.updateBoolean
 import com.unifetch.app.util.RESTRICT_FILENAMES
 import com.unifetch.app.util.UpdateUtil
+import com.unifetch.app.util.YtdlpUpdateManager
 import com.unifetch.app.util.YT_DLP_VERSION
 import com.unifetch.app.util.makeToast
 import com.yausername.youtubedl_android.YoutubeDL
@@ -96,8 +97,7 @@ fun TroubleShootingPage(
 
                 var ytdlpVersion by remember {
                     mutableStateOf(
-                        YoutubeDL.getInstance().version(context.applicationContext)
-                            ?: context.getString(R.string.ytdlp_update)
+                        YtdlpUpdateManager.describe()
                     )
                 }
                 PreferenceItem(
@@ -125,7 +125,7 @@ fun TroubleShootingPage(
                             runCatching {
                                     isUpdating = true
                                     UpdateUtil.updateYtDlp()
-                                    ytdlpVersion = YT_DLP_VERSION.getString()
+                                    ytdlpVersion = YtdlpUpdateManager.describe()
                                 }
                                 .onFailure { th ->
                                     th.printStackTrace()
@@ -139,7 +139,7 @@ fun TroubleShootingPage(
                                     withContext(Dispatchers.Main) {
                                         context.makeToast(
                                             context.getString(R.string.yt_dlp_up_to_date) +
-                                                " (${YT_DLP_VERSION.getString()})"
+                                                " (${YtdlpUpdateManager.installedVersionName()})"
                                         )
                                     }
                                 }

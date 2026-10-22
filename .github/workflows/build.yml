@@ -51,12 +51,12 @@ jobs:
             echo "No signing key in GitHub Secrets yet: using a temporary debug key."
           fi
 
-      - name: Build debug APKs
+      - name: Build debug APKs and run unit tests
         env:
           UNIFETCH_KEYSTORE_PASSWORD: ${{ secrets.UNIFETCH_KEYSTORE_PASSWORD }}
           UNIFETCH_KEY_ALIAS: ${{ secrets.UNIFETCH_KEY_ALIAS }}
           UNIFETCH_KEY_PASSWORD: ${{ secrets.UNIFETCH_KEY_PASSWORD }}
-        run: ./gradlew assembleGenericDebug --stacktrace
+        run: ./gradlew assembleGenericDebug testGenericDebugUnitTest --stacktrace
 
       - name: Remove signing key
         if: always()

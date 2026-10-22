@@ -53,25 +53,19 @@ object UpdateUtil {
 
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
-    suspend fun updateYtDlp(): YoutubeDL.UpdateStatus? =
+    /**
+     * The "check now" button: checks the chosen channel and installs a newer yt-dlp right away
+     * (ignoring the automatic update setting). Throws if the check or update failed.
+     */
+    suspend fun updateYtDlp(): YoutubeDL.UpdateStatus =
         withContext(Dispatchers.IO) {
-            val channel =
-                when (YT_DLP_UPDATE_CHANNEL.getInt()) {
-                    YT_DLP_NIGHTLY -> YoutubeDL.UpdateChannel.NIGHTLY
-                    else -> YoutubeDL.UpdateChannel.STABLE
-                }
-
-            YoutubeDL.getInstance()
-                .updateYoutubeDL(appContext = context, updateChannel = channel)
-                .also {
-                    if (it == YoutubeDL.UpdateStatus.DONE) {
-                        YoutubeDL.getInstance().version(context)?.let {
-                            PreferenceUtil.encodeString(YT_DLP_VERSION, it)
-                        }
-                    }
-                    val now = System.currentTimeMillis()
-                    YT_DLP_UPDATE_TIME.updateLong(now)
-                }
+            when (YtdlpUpdateManager.checkAndUpdate(YtdlpUpdateManager.Trigger.MANUAL)) {
+                YtdlpUpdateManager.Result.UPDATED -> YoutubeDL.UpdateStatus.DONE
+                YtdlpUpdateManager.Result.UP_TO_DATE -> YoutubeDL.UpdateStatus.ALREADY_UP_TO_DATE
+                YtdlpUpdateManager.Result.BUSY ->
+                    throw IllegalStateException(context.getString(R.string.ytdlp_update_busy))
+                else -> throw IllegalStateException("yt-dlp update check failed")
+            }
         }
 
     private fun getLatestRelease(): Release =
