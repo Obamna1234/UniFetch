@@ -1,10 +1,14 @@
 # Builds signed release APKs when a version tag (e.g. v1.0.0) is pushed, and publishes them
 # on the GitHub Releases page with automatically written release notes.
+#
+# Practice run: pushing to the "release-check" branch does everything except publishing, and
+# attaches the signed APKs to the run instead. Used to check the release build still works.
 name: Release
 
 on:
   push:
     tags: ["v*"]
+    branches: ["release-check"]
 
 permissions:
   contents: write
@@ -61,7 +65,9 @@ jobs:
           UNIFETCH_KEYSTORE_PASSWORD: ${{ secrets.UNIFETCH_KEYSTORE_PASSWORD }}
           UNIFETCH_KEY_ALIAS: ${{ secrets.UNIFETCH_KEY_ALIAS }}
           UNIFETCH_KEY_PASSWORD: ${{ secrets.UNIFETCH_KEY_PASSWORD }}
-        run: ./gradlew assembleGenericRelease -PappVersion="$GITHUB_REF_NAME" --stacktrace
+          # Only real releases take their version from the tag.
+          APP_VERSION: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+        run: ./gradlew assembleGenericRelease -PappVersion="$APP_VERSION" --stacktrace
 
       - name: Remove signing key
         if: always()
@@ -75,7 +81,17 @@ jobs:
             echo "Signed OK: $(basename "$apk")"
           done
 
+      - name: Upload APKs (practice run only)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-check-apks
+          path: app/build/outputs/apk/generic/release/*.apk
+          if-no-files-found: error
+          retention-days: 3
+
       - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v3
         with:
           name: ${{ github.ref_name }}
