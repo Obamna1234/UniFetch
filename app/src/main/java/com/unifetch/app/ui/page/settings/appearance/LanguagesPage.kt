@@ -48,7 +48,6 @@ import com.unifetch.app.ui.component.BackButton
 import com.unifetch.app.ui.component.PreferenceSingleChoiceItem
 import com.unifetch.app.ui.component.PreferenceSubtitle
 import com.unifetch.app.ui.component.PreferencesHintCard
-import com.unifetch.app.ui.page.settings.about.weblate
 import com.unifetch.app.ui.theme.SealTheme
 import com.unifetch.app.util.LocaleLanguageCodeMap
 import com.unifetch.app.util.PreferenceUtil
@@ -165,16 +164,6 @@ private fun LanguagePageImpl(
         },
         content = {
             LazyColumn(modifier = Modifier, contentPadding = it) {
-                item {
-                    PreferencesHintCard(
-                        title = stringResource(R.string.translate),
-                        description = stringResource(R.string.translate_desc),
-                        icon = Icons.Outlined.Translate,
-                    ) {
-                        uriHandler.openUri(weblate)
-                    }
-                }
-
                 if (suggestedLocales.isNotEmpty()) {
 
                     item { PreferenceSubtitle(text = stringResource(id = R.string.suggested)) }

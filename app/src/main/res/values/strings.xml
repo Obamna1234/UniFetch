@@ -49,6 +49,8 @@
     <string name="checked">Checked</string>
     <string name="credits">Credits</string>
     <string name="credits_desc">Credits and libre software</string>
+    <string name="fork_of_seal">Based on Seal</string>
+    <string name="fork_of_seal_desc">UniFetch is a fork of Seal by JunkFood02, licensed under GPL-3.0</string>
     <string name="custom_command">Custom command</string>
     <string name="custom_command_desc">Run yt-dlp command with custom template</string>
     <string name="custom_command_template">Command template</string>

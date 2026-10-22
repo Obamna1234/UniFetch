@@ -56,7 +56,6 @@ import com.unifetch.app.ui.component.SettingItem
 import com.unifetch.app.util.EXTRACT_AUDIO
 import com.unifetch.app.util.PreferenceUtil.getBoolean
 import com.unifetch.app.util.PreferenceUtil.updateInt
-import com.unifetch.app.util.SHOW_SPONSOR_MSG
 
 @SuppressLint("BatteryLife")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,10 +102,6 @@ fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
         }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    val showSponsorMessage by SHOW_SPONSOR_MSG.intState
-
-    LaunchedEffect(Unit) { SHOW_SPONSOR_MSG.updateInt(showSponsorMessage + 1) }
-
     val typography = MaterialTheme.typography
 
     Scaffold(
@@ -144,16 +139,6 @@ fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
                     }
                 }
             }
-            if (!showBatteryHint && showSponsorMessage > 30)
-                item {
-                    PreferencesHintCard(
-                        title = stringResource(id = R.string.sponsor),
-                        icon = Icons.Rounded.VolunteerActivism,
-                        description = stringResource(id = R.string.sponsor_desc),
-                    ) {
-                        onNavigateTo(Route.DONATE)
-                    }
-                }
             item {
                 SettingItem(
                     title = stringResource(id = R.string.general_settings),

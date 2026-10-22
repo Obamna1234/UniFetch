@@ -216,17 +216,6 @@ fun NavigationDrawerSheetContent(
                 selected = currentRoute == Route.SETTINGS_PAGE,
             )
 
-            NavigationDrawerItem(
-                label = { Text(stringResource(R.string.sponsor)) },
-                icon = { Icon(Icons.Outlined.VolunteerActivism, null) },
-                onClick = {
-                    scope
-                        .launch { onDismissRequest() }
-                        .invokeOnCompletion { onNavigateToRoute(Route.DONATE) }
-                },
-                selected = currentRoute == Route.DONATE,
-            )
-
             if (showQuickSettings) {
                 HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
 

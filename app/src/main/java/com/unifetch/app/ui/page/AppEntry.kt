@@ -48,7 +48,6 @@ import com.unifetch.app.ui.page.downloadv2.DownloadPageV2
 import com.unifetch.app.ui.page.settings.SettingsPage
 import com.unifetch.app.ui.page.settings.about.AboutPage
 import com.unifetch.app.ui.page.settings.about.CreditsPage
-import com.unifetch.app.ui.page.settings.about.SponsorsPage
 import com.unifetch.app.ui.page.settings.about.UpdatePage
 import com.unifetch.app.ui.page.settings.appearance.AppearancePreferences
 import com.unifetch.app.ui.page.settings.appearance.DarkThemePreferences
@@ -212,10 +211,8 @@ fun NavGraphBuilder.settingsGraph(
                 onNavigateBack = onNavigateBack,
                 onNavigateToCreditsPage = { onNavigateTo(Route.CREDITS) },
                 onNavigateToUpdatePage = { onNavigateTo(Route.AUTO_UPDATE) },
-                onNavigateToDonatePage = { onNavigateTo(Route.DONATE) },
             )
         }
-        animatedComposable(Route.DONATE) { SponsorsPage(onNavigateBack) }
         animatedComposable(Route.CREDITS) { CreditsPage(onNavigateBack) }
         animatedComposable(Route.AUTO_UPDATE) { UpdatePage(onNavigateBack) }
         animatedComposable(Route.APPEARANCE) {
