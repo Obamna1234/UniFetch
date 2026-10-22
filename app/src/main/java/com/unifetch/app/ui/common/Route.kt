@@ -30,6 +30,7 @@ object Route {
     const val SUBTITLE_PREFERENCES = "subtitle_preferences"
     const val AUTO_UPDATE = "auto_update"
     const val TROUBLESHOOTING = "troubleshooting"
+    const val PRIVACY = "privacy"
 
     const val TASK_HASHCODE = "task_hashcode"
     const val TEMPLATE_ID = "template_id"

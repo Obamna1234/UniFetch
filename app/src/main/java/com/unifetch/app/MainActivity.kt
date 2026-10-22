@@ -12,6 +12,7 @@ import com.unifetch.app.App.Companion.context
 import com.unifetch.app.ui.common.LocalDarkTheme
 import com.unifetch.app.ui.common.SettingsProvider
 import com.unifetch.app.ui.page.AppEntry
+import com.unifetch.app.ui.page.lock.AppLockGate
 import com.unifetch.app.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.unifetch.app.ui.theme.SealTheme
 import com.unifetch.app.util.PreferenceUtil
@@ -42,7 +43,9 @@ class MainActivity : AppCompatActivity() {
                         darkTheme = LocalDarkTheme.current.isDarkTheme(),
                         isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
                     ) {
-                        AppEntry(dialogViewModel = dialogViewModel)
+                        AppLockGate(onBackWhileLocked = { moveTaskToBack(true) }) {
+                            AppEntry(dialogViewModel = dialogViewModel)
+                        }
                     }
                 }
             }

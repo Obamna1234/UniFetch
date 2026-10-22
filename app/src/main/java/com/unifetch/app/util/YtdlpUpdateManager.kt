@@ -122,6 +122,21 @@ object YtdlpUpdateManager {
         }
     }
 
+    /**
+     * Runs [block] only if no yt-dlp process is running, keeping new ones from starting until it
+     * finishes. Returns false (without running it) if downloads are running.
+     */
+    fun runWhenNoDownloads(block: () -> Unit): Boolean {
+        val writeLock = runLock.writeLock()
+        if (!writeLock.tryLock()) return false
+        try {
+            block()
+        } finally {
+            writeLock.unlock()
+        }
+        return true
+    }
+
     /** The "before every fetch" check. Never throws and never blocks on running downloads. */
     fun checkBeforeFetch() {
         runCatching { checkAndUpdate(Trigger.BEFORE_FETCH) }

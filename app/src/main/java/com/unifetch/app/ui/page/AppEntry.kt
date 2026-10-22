@@ -49,6 +49,7 @@ import com.unifetch.app.ui.page.settings.SettingsPage
 import com.unifetch.app.ui.page.settings.about.AboutPage
 import com.unifetch.app.ui.page.settings.about.CreditsPage
 import com.unifetch.app.ui.page.settings.about.UpdatePage
+import com.unifetch.app.ui.page.settings.privacy.PrivacySettingsPage
 import com.unifetch.app.ui.page.settings.appearance.AppearancePreferences
 import com.unifetch.app.ui.page.settings.appearance.DarkThemePreferences
 import com.unifetch.app.ui.page.settings.appearance.LanguagePage
@@ -256,6 +257,7 @@ fun NavGraphBuilder.settingsGraph(
                 CookieManager.getInstance().flush()
             }
         }
+        animatedComposable(Route.PRIVACY) { PrivacySettingsPage(onBack = onNavigateBack) }
         animatedComposable(Route.TROUBLESHOOTING) {
             TroubleShootingPage(onNavigateTo = onNavigateTo, onBack = onNavigateBack)
         }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.unifetch.app.ui.common.LocalDarkTheme
 import com.unifetch.app.ui.common.SettingsProvider
+import com.unifetch.app.ui.page.lock.AppLockGate
 import com.unifetch.app.ui.page.downloadv2.configure.Config
 import com.unifetch.app.ui.page.downloadv2.configure.DownloadDialog
 import com.unifetch.app.ui.page.downloadv2.configure.DownloadDialogViewModel
@@ -101,6 +102,7 @@ class QuickDownloadActivity : ComponentActivity() {
                     darkTheme = LocalDarkTheme.current.isDarkTheme(),
                     isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
                 ) {
+                    AppLockGate(onBackWhileLocked = { finish() }) {
                     var preferences by remember {
                         mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
                     }
@@ -161,6 +163,7 @@ class QuickDownloadActivity : ComponentActivity() {
                                 },
                             )
                         }
+                    }
                     }
                 }
             }

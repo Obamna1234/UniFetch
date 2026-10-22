@@ -44,6 +44,19 @@ object NotificationUtil {
     private val commandNotificationBuilder =
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_unifetch)
 
+    /** Discreet mode: only "UniFetch", no video titles, links or yt-dlp output. */
+    private val discreet: Boolean
+        get() = NOTIFICATION_DISCREET.getBoolean()
+
+    private fun shownTitle(title: String?): String? =
+        if (discreet) context.getString(R.string.app_name) else title
+
+    private fun shownText(text: String?): String? = if (discreet) null else text
+
+    /** Discreet notifications are also hidden on the lock screen. */
+    private fun NotificationCompat.Builder.applyPrivacy(): NotificationCompat.Builder =
+        if (discreet) setVisibility(NotificationCompat.VISIBILITY_SECRET) else this
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun createNotificationChannel() {
         val name = context.getString(R.string.channel_name)
@@ -92,11 +105,12 @@ object NotificationUtil {
 
         NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_unifetch)
-            .setContentTitle(title)
+            .setContentTitle(shownTitle(title))
             .setProgress(PROGRESS_MAX, progress, progress <= 0)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(shownText(text)))
+            .applyPrivacy()
             .run {
                 pendingIntent?.let {
                     addAction(R.drawable.outline_cancel_24, context.getString(R.string.cancel), it)
@@ -121,7 +135,8 @@ object NotificationUtil {
                 .setContentText(text)
                 .setOngoing(false)
                 .setAutoCancel(true)
-        title?.let { builder.setContentTitle(title) }
+                .applyPrivacy()
+        shownTitle(title)?.let { builder.setContentTitle(it) }
         intent?.let { builder.setContentIntent(intent) }
         notificationManager.notify(notificationId, builder.build())
     }
@@ -135,12 +150,13 @@ object NotificationUtil {
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_unifetch)
-                .setContentText(text)
+                .setContentText(shownText(text))
                 .setProgress(0, 0, false)
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setStyle(null)
-        title?.let { builder.setContentTitle(title) }
+                .applyPrivacy()
+        shownTitle(title)?.let { builder.setContentTitle(it) }
 
         notificationManager.notify(notificationId, builder.build())
     }
@@ -150,8 +166,9 @@ object NotificationUtil {
             NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_unifetch)
                 .setContentTitle(context.getString(R.string.service_title))
-                .setContentText(text)
+                .setContentText(shownText(text))
                 .setOngoing(true)
+                .applyPrivacy()
                 .setContentIntent(intent)
                 .setForegroundServiceBehavior(FOREGROUND_SERVICE_IMMEDIATE)
                 .build()
@@ -196,9 +213,10 @@ object NotificationUtil {
             )
         NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_unifetch)
-            .setContentTitle(title)
+            .setContentTitle(shownTitle(title))
             .setContentText(context.getString(textId))
             .setOngoing(false)
+            .applyPrivacy()
             .addAction(
                 R.drawable.outline_content_copy_24,
                 context.getString(R.string.copy_error_report),
@@ -237,10 +255,13 @@ object NotificationUtil {
         NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_unifetch)
             .setContentTitle(
-                "[${templateName}_${taskUrl}] " +
-                    context.getString(R.string.execute_command_notification)
+                if (discreet) context.getString(R.string.execute_command_notification)
+                else
+                    "[${templateName}_${taskUrl}] " +
+                        context.getString(R.string.execute_command_notification)
             )
-            .setContentText(text)
+            .setContentText(shownText(text))
+            .applyPrivacy()
             .setOngoing(true)
             .setProgress(PROGRESS_MAX, progress, progress == -1)
             .addAction(

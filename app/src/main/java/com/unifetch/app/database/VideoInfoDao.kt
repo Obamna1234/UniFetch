@@ -30,6 +30,10 @@ interface VideoInfoDao {
 
     @Query("DELETE FROM DownloadedVideoInfo WHERE id = :id") suspend fun deleteInfoById(id: Int)
 
+    @Query("DELETE FROM DownloadedVideoInfo") suspend fun deleteAllHistory()
+
+    @Query("DELETE FROM CookieProfile") suspend fun deleteAllCookieProfiles()
+
     @Query("DELETE FROM DownloadedVideoInfo WHERE videoPath = :path")
     suspend fun deleteInfoByPath(path: String)
 

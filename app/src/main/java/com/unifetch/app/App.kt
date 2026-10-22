@@ -42,6 +42,7 @@ import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
+import com.unifetch.app.util.AppLock
 import com.unifetch.app.util.YtdlpUpdateWorker
 import kotlinx.coroutines.CompletableDeferred
 import java.io.File
@@ -60,6 +61,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
+        AppLock.init(this)
 
         startKoin {
             androidLogger()

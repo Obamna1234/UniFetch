@@ -195,6 +195,7 @@ dependencies {
     implementation(libs.mmkv)
 
     implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.biometric)
 
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)

@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AudioFile
 import androidx.compose.material.icons.rounded.BugReport
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Info
@@ -205,6 +206,15 @@ fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
                     icon = Icons.Rounded.ViewComfy,
                 ) {
                     onNavigateTo(Route.INTERACTION)
+                }
+            }
+            item {
+                SettingItem(
+                    title = stringResource(R.string.privacy_settings),
+                    description = stringResource(R.string.privacy_settings_desc),
+                    icon = Icons.Rounded.Lock,
+                ) {
+                    onNavigateTo(Route.PRIVACY)
                 }
             }
             item {

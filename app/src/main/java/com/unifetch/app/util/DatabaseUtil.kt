@@ -35,6 +35,12 @@ object DatabaseUtil {
 
     fun getDownloadHistoryFlow() = dao.getDownloadHistoryFlow()
 
+    /** Quick wipe: removes every download history entry (the downloaded files are kept). */
+    suspend fun deleteAllHistory() = dao.deleteAllHistory()
+
+    /** Quick wipe: removes every saved cookie profile. */
+    suspend fun deleteAllCookieProfiles() = dao.deleteAllCookieProfiles()
+
     private suspend fun getDownloadHistory() = dao.getDownloadHistory()
 
     fun getTemplateFlow() = dao.getTemplateFlow()

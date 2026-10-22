@@ -122,6 +122,16 @@ const val YT_DLP_PENDING_TAG = "yt-dlp_pending_tag"
 const val YT_DLP_BACKUP_TAG = "yt-dlp_backup_tag"
 const val YT_DLP_BACKUP_VERSION = "yt-dlp_backup_version"
 
+// Privacy & security
+const val APP_LOCK_TYPE = "app_lock_type"
+const val APP_LOCK_HASH = "app_lock_hash"
+const val APP_LOCK_SALT = "app_lock_salt"
+const val APP_LOCK_ALGORITHM = "app_lock_algorithm"
+const val APP_LOCK_BIOMETRIC = "app_lock_biometric"
+const val APP_LOCK_TIMEOUT = "app_lock_timeout"
+const val SECURE_SCREEN = "secure_screen"
+const val NOTIFICATION_DISCREET = "notification_discreet"
+
 private const val INTERVAL_DAY = 86_400_000L
 private const val INTERVAL_WEEK = 86_400_000L * 7
 private const val INTERVAL_MONTH = 86_400_000L * 30
@@ -223,6 +233,7 @@ private val StringPreferenceDefaults =
 
 private val BooleanPreferenceDefaults =
     mapOf(
+        SECURE_SCREEN to true,
         FORMAT_SELECTION to true,
         CONFIGURE to true,
         CELLULAR_DOWNLOAD to false,
@@ -251,7 +262,8 @@ private val IntPreferenceDefaults =
         DOWNLOAD_TYPE to DownloadType.Video.ordinal,
     )
 
-private val LongPreferenceDefaults = mapOf(YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL)
+private val LongPreferenceDefaults =
+    mapOf(YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL, APP_LOCK_TIMEOUT to 60_000L)
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
 
