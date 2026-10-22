@@ -20,19 +20,22 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           java-version: "21"
           distribution: temurin
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          # GitHub's own cache only (the default "enhanced" mode uses an outside service)
+          cache-provider: basic
 
       # Optional: if the signing key is set up in GitHub Secrets, test builds use it too, so a
       # newer test build installs over an older one. Without it, each test build gets a new key.
@@ -60,17 +63,19 @@ jobs:
         run: rm -f "$RUNNER_TEMP/unifetch.jks"
 
       - name: Upload arm64 APK (most phones, including Samsung Galaxy A55)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: UniFetch-debug-arm64-v8a
+          # archive: false uploads the .apk itself (no zip), named after the file
           path: app/build/outputs/apk/generic/debug/*-arm64-v8a.apk
+          archive: false
           if-no-files-found: error
           retention-days: 14
 
       - name: Upload universal APK (any Android device)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: UniFetch-debug-universal
+          # archive: false uploads the .apk itself (no zip), named after the file
           path: app/build/outputs/apk/generic/debug/*-universal.apk
+          archive: false
           if-no-files-found: error
           retention-days: 14

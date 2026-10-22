@@ -53,9 +53,8 @@ Every time new code is pushed, GitHub builds a test version of UniFetch. Test bu
 1. Sign in to github.com on your phone (test builds can only be downloaded when signed in).
 2. Open **https://github.com/Obamna1234/UniFetch/actions**.
 3. Tap the newest run named **Build** that has a **green tick ✅**.
-4. Scroll down to **Artifacts** and tap **UniFetch-debug-arm64-v8a** (or **UniFetch-debug-universal** for other phones).
-5. A **.zip** file downloads. Open **My Files → Downloads**, tap the zip and choose **Extract**.
-6. Open the extracted folder and tap the **.apk** file, then **Install**.
+4. Scroll down to **Artifacts** and tap the file ending in **`-arm64-v8a.apk`** (or **`-universal.apk`** for other phones).
+5. When it has downloaded, tap **Open** (or find it in **My Files → Downloads**), then **Install**.
 
 > Until the signing key is set up ([section 7](#7-set-up-the-signing-key-one-time)), each test build is signed differently. To install a newer test build, first uninstall the old "UniFetch Debug" (long-press its icon → **Uninstall**). After the key is set up, newer test builds install straight over older ones.
 
