@@ -12,6 +12,7 @@ Simple step-by-step help for installing, updating and releasing UniFetch. Everyt
 6. [Copy an error log and report a bug](#6-copy-an-error-log-and-report-a-bug)
 7. [Set up the signing key (one time)](#7-set-up-the-signing-key-one-time)
 8. [Release a new version](#8-release-a-new-version)
+9. [App lock and privacy settings](#9-app-lock-and-privacy-settings)
 
 ---
 
@@ -83,6 +84,7 @@ Still stuck? [Report a bug](#6-copy-an-error-log-and-report-a-bug) and say which
 - **A download failed:** tap the failed download in the list and choose **Copy report**.
 - **The app crashed:** a crash screen appears. Tap **Copy and exit**.
 - **Your phone details:** go to **Settings → About** and tap **Version**. Your app version and phone info are copied.
+- **Need a screenshot?** UniFetch blocks screenshots by default. Turn off **Settings → Privacy & security → Hide from recent apps and screenshots** while you take it, then turn it back on.
 
 **Report it on GitHub:**
 
@@ -135,3 +137,22 @@ Version tags look like **`v1.2.3`**: raise the last number for fixes, the middle
 > Publishing the release on github.com creates the tag, which starts the Release build. The build then fills in the APKs and notes on that same release.
 
 **If the Release run fails (red ✗):** tap it to see which step failed. "Missing GitHub Secrets" means [section 7](#7-set-up-the-signing-key-one-time) isn't finished. Fix it, delete the release *and* its tag (on the [Tags page](https://github.com/Obamna1234/UniFetch/tags)), and try again.
+
+## 9. App lock and privacy settings
+
+Everything here is in **Settings → Privacy & security**.
+
+**Turn on the app lock**
+
+1. Turn on **App lock**.
+2. Choose **PIN** or **Pattern**, enter it, then enter it again to confirm.
+3. Optional: turn on **Unlock with fingerprint** and touch the sensor once to confirm it works.
+4. Optional: tap **Lock after leaving the app** to choose how long UniFetch can be in the background before it asks again.
+
+⚠️ **If you forget your PIN or pattern**, there is no reset. The only way back in is to clear UniFetch's storage (phone **Settings → Apps → UniFetch → Storage → Clear storage**). That erases UniFetch's history and settings, but your downloaded videos stay where they are.
+
+**Other settings**
+
+- **Hide from recent apps and screenshots** (on by default): UniFetch shows as a blank card in the app switcher and can't be screenshotted.
+- **Discreet notifications:** notifications only say "UniFetch", with no video titles or links, and don't show on the lock screen. To turn download notifications off completely, use **Settings → General → Download notification**.
+- **Quick wipe:** clears download history, saved cookies and logins, built-in browser data, cached thumbnails and temporary files. Your downloaded files, settings and app lock are kept. It won't run while downloads are in progress.

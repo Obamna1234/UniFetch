@@ -26,7 +26,7 @@ UniFetch is a personal Android app for downloading video and audio from the many
 
 ## Features
 
-Available now (from Seal):
+Available now:
 
 - Download video or audio from any site supported by yt-dlp, including playlists
 - Choose formats and quality, embed subtitles, thumbnails and metadata
@@ -35,10 +35,11 @@ Available now (from Seal):
 - Share a link to UniFetch from any app to start a download
 - Material You design with light and dark themes, in many languages
 - Automatic yt-dlp updates (Nightly by default), with auto-retry when a site breaks and one-tap rollback
+- App lock (PIN, pattern or fingerprint), hidden from recent apps and screenshots
+- Discreet notifications, quick wipe, and no Google backups of app data
 
 Planned (see [the build plan](#roadmap)):
 
-- App lock, hidden from recents and screenshots, discreet notifications, quick wipe
 - Encrypted private vault with a built-in video player
 - Built-in private browser with up to 1000 tabs and video detection
 - Unlimited queue, duplicate detection and batch downloads
@@ -60,7 +61,7 @@ UniFetch uses its own app ID (`com.unifetch.app`), so it installs alongside Seal
 
 1. ✅ Fork setup: new name, app ID, icon, credits, GitHub builds
 2. ✅ Automatic yt-dlp updates and auto-retry
-3. Privacy basics: app lock, screenshot blocking, discreet notifications, backup exclusion, quick wipe
+3. ✅ Privacy basics: app lock, screenshot blocking, discreet notifications, backup exclusion, quick wipe
 4. Encrypted vault and built-in player
 5. Built-in browser with tab suspension and the 1000-tab limit
 6. Video detection in the browser

@@ -2,7 +2,18 @@
 
 All notable changes to UniFetch are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## v0.1.0 - 2026-10-23
+
+The first UniFetch release.
+
+### Privacy basics (stage 3)
+
+- App lock with a PIN or pattern, plus optional fingerprint. Choose how long UniFetch can be in the background before it locks again (immediately up to 15 minutes)
+- Hide from recent apps and screenshots, on by default
+- Discreet notifications: only "UniFetch" is shown, with no video titles or links, and nothing on the lock screen
+- Quick wipe clears download history, cookies, browser data, cached thumbnails and cache. Downloaded files are kept
+- UniFetch's data is never included in Google backups or phone-to-phone transfers
+- All of these are under Settings → Privacy & security
 
 ### Automatic yt-dlp updates (stage 2)
 
