@@ -1,0 +1,138 @@
+# UniFetch how-to guide
+
+Simple step-by-step help for installing, updating and releasing UniFetch. Everything happens on your phone and on github.com. No computer needed.
+
+**Contents**
+
+1. [Install UniFetch from Releases](#1-install-unifetch-from-releases)
+2. [Allow "Install unknown apps"](#2-allow-install-unknown-apps)
+3. [Install a test build](#3-install-a-test-build)
+4. [Update UniFetch](#4-update-unifetch)
+5. [If an update fails to install](#5-if-an-update-fails-to-install)
+6. [Copy an error log and report a bug](#6-copy-an-error-log-and-report-a-bug)
+7. [Set up the signing key (one time)](#7-set-up-the-signing-key-one-time)
+8. [Release a new version](#8-release-a-new-version)
+
+---
+
+## 1. Install UniFetch from Releases
+
+1. On your phone, open **https://github.com/Obamna1234/UniFetch/releases/latest** in Chrome or Samsung Internet.
+2. Scroll down to **Assets** and tap to expand it if needed.
+3. Tap the file ending in **`-arm64-v8a.apk`**. This fits almost every phone from the last several years, including the Samsung Galaxy A55.
+   - Older or unusual phone? Tap **`-universal.apk`** instead. It works everywhere but is bigger.
+4. When the download finishes, tap **Open** (or find it in **My Files → Downloads**).
+5. If your phone asks about installing unknown apps, follow [section 2](#2-allow-install-unknown-apps), then come back.
+6. Tap **Install**. When it's done, tap **Open**.
+
+> If Google Play Protect shows a warning, that's normal for apps not from the Play Store. Tap **More details → Install anyway**.
+
+## 2. Allow "Install unknown apps"
+
+Android only installs apps from places you've allowed. You only need to do this once per app you install from (your browser or My Files).
+
+**When the pop-up appears during install:**
+
+1. Tap **Settings** on the pop-up.
+2. Turn on **Allow from this source**.
+3. Press back. The install screen comes back.
+
+**Or set it up beforehand (Samsung):**
+
+1. Open **Settings → Security and privacy → More security settings → Install unknown apps**.
+   (On some phones: **Settings → Apps → ⋮ menu → Special access → Install unknown apps**.)
+2. Tap **Chrome** (or **Samsung Internet**, or **My Files**).
+3. Turn on **Allow from this source**.
+
+You can turn it off again after installing if you like.
+
+## 3. Install a test build
+
+Every time new code is pushed, GitHub builds a test version of UniFetch. Test builds have a separate app ID, so they install as **"UniFetch Debug"** next to the normal app and don't touch its data.
+
+1. Sign in to github.com on your phone (test builds can only be downloaded when signed in).
+2. Open **https://github.com/Obamna1234/UniFetch/actions**.
+3. Tap the newest run named **Build** that has a **green tick ✅**.
+4. Scroll down to **Artifacts** and tap **UniFetch-debug-arm64-v8a** (or **UniFetch-debug-universal** for other phones).
+5. A **.zip** file downloads. Open **My Files → Downloads**, tap the zip and choose **Extract**.
+6. Open the extracted folder and tap the **.apk** file, then **Install**.
+
+> Until the signing key is set up ([section 7](#7-set-up-the-signing-key-one-time)), each test build is signed differently. To install a newer test build, first uninstall the old "UniFetch Debug" (long-press its icon → **Uninstall**). After the key is set up, newer test builds install straight over older ones.
+
+## 4. Update UniFetch
+
+**From inside the app:** UniFetch checks this repository's Releases page for updates (Settings → About → Auto update). When an update is found, tap **Update**, then **Install**.
+
+**By hand:** follow [section 1](#1-install-unifetch-from-releases) again with the newer APK. Android installs it over the old version and **keeps all your data**, as long as it's an official release from this repository.
+
+## 5. If an update fails to install
+
+| What you see | What to do |
+|---|---|
+| **"App not installed"** or **"conflicts with an existing package"** | The installed copy was signed with a different key (for example an old test build, or a copy built somewhere else). Uninstall UniFetch, then install the new APK. ⚠️ Uninstalling deletes UniFetch's settings and history; downloaded videos in your Downloads folder stay. |
+| **"App not installed"** and it's the same release you already have, or older | Android won't install an older or identical version over a newer one. Download the latest release instead. |
+| **"There was a problem parsing the package"** | The download was incomplete or you picked a file for a different phone type. Delete it, download again, and try the **universal** APK. |
+| **Nothing happens / install button greyed out** | Check [section 2](#2-allow-install-unknown-apps), and make sure you have at least 500 MB free storage. |
+| **Play Protect blocked it** | Tap **More details → Install anyway**. |
+
+Still stuck? [Report a bug](#6-copy-an-error-log-and-report-a-bug) and say which step failed.
+
+## 6. Copy an error log and report a bug
+
+**Copy the log in UniFetch:**
+
+- **A download failed:** tap the failed download in the list and choose **Copy report**.
+- **The app crashed:** a crash screen appears. Tap **Copy and exit**.
+- **Your phone details:** go to **Settings → About** and tap **Version**. Your app version and phone info are copied.
+
+**Report it on GitHub:**
+
+1. Open **https://github.com/Obamna1234/UniFetch/issues** (sign in first).
+2. Tap **New issue → Bug report**.
+3. Describe what you did and what went wrong.
+4. In **Error log**, long-press and **Paste** what you copied.
+5. ⚠️ Before submitting, delete anything private: cookies, passwords, or links to private videos. Issues on this repository are public.
+6. Tap **Submit new issue**.
+
+## 7. Set up the signing key (one time)
+
+Release APKs must be "signed" with a private key so Android knows updates really come from you. Every release must use **the same key**, otherwise updates can't install over the old version.
+
+The key is stored in **GitHub Secrets**: hidden values that only the build can use and nobody (not even you) can read back. It is never saved in the code.
+
+**What you need:** a keystore file encoded as text (base64), its password, the key's name (alias) and the key's password. Claude can create these for you in a session and give you the four values.
+
+**Add them to GitHub:**
+
+1. Open **https://github.com/Obamna1234/UniFetch/settings/secrets/actions**
+2. Tap **New repository secret**, and add each of these (name exactly as shown, then paste the value):
+
+   | Name | Value |
+   |---|---|
+   | `UNIFETCH_KEYSTORE_BASE64` | the long base64 text of the keystore |
+   | `UNIFETCH_KEYSTORE_PASSWORD` | the keystore password |
+   | `UNIFETCH_KEY_ALIAS` | the key name |
+   | `UNIFETCH_KEY_PASSWORD` | the key password |
+
+3. **Back up the keystore file and passwords** somewhere private and safe, such as a password manager. If they're lost, future versions can't update the installed app. You'd have to uninstall and lose UniFetch's data.
+
+⚠️ Never put the keystore or passwords in the code, an issue, or any public place.
+
+## 8. Release a new version
+
+Pushing a **version tag** tells GitHub to build signed APKs and publish them on the Releases page with automatic release notes. The tag also sets the app's version number, so there's nothing else to edit.
+
+Version tags look like **`v1.2.3`**: raise the last number for fixes, the middle number for new features. For a test release, add `-beta.1` (e.g. `v1.3.0-beta.1`); it's marked as a pre-release.
+
+**Do it on github.com:**
+
+1. Make sure the newest **Build** run on the [Actions page](https://github.com/Obamna1234/UniFetch/actions) has a green tick ✅, and the signing key is set up ([section 7](#7-set-up-the-signing-key-one-time)).
+2. Open **https://github.com/Obamna1234/UniFetch/releases/new**
+3. Tap **Choose a tag**, type the new version (e.g. `v0.1.0`) and tap **Create new tag: v0.1.0 on publish**. Leave the target as **main**.
+4. Type anything in the title (it will be replaced) and tap **Publish release**.
+5. Open the [Actions page](https://github.com/Obamna1234/UniFetch/actions). A run named **Release** starts. It takes about 10–20 minutes.
+6. When it shows a green tick ✅, the APKs appear on the release automatically, ready to install ([section 1](#1-install-unifetch-from-releases)).
+
+> Publishing the release on github.com creates the tag, which starts the Release build. The build then fills in the APKs and notes on that same release.
+
+**If the Release run fails (red ✗):** tap it to see which step failed. "Missing GitHub Secrets" means [section 7](#7-set-up-the-signing-key-one-time) isn't finished. Fix it, delete the release *and* its tag (on the [Tags page](https://github.com/Obamna1234/UniFetch/tags)), and try again.

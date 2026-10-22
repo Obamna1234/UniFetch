@@ -1,5 +1,24 @@
 # Changelog
 
+All notable changes to UniFetch are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
+
+## Unreleased
+
+### Fork setup (stage 1)
+
+- UniFetch is now its own app: new name, new app ID (`com.unifetch.app`, so it installs alongside Seal) and a new icon
+- Credits Seal by JunkFood02 on the About and Credits screens and in the README
+- Removed Seal's sponsor, donation, Telegram, Matrix and translation-site links
+- App updates are now checked against UniFetch's own GitHub Releases
+- New GitHub builds: a test APK on every push, and signed release APKs when a version tag is pushed
+- Added the beginner guide HOW_TO.md
+
+---
+
+# Seal changelog (before the fork)
+
+UniFetch is based on Seal. Seal's own history is kept below for reference.
+
 All notable changes (starting from v1.7.3) to stable releases will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

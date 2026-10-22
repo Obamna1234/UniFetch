@@ -1,169 +1,87 @@
 <div align="center">
 
-<img width="" src="fastlane/metadata/android/en-US/images/icon.png"  width=160 height=160  align="center">
+<img src="docs/icon.png" width="120" alt="UniFetch icon" />
 
-# Seal
+# UniFetch
 
-### Video/Audio Downloader for Android
+A private, open-source video and audio downloader for Android.
 
-
-English
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-zh_Hans.md">简体中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-zh_Hant.md">繁體中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ar.md">العربية</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-pt.md">Portuguese</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ua.md">Українська</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-th.md">ภาษาไทย</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-fa.md">فارسی</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-it.md">Italiano</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-az.md">Azərbaycanca</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ru.md">Русский</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-sr.md">Српски</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ja.md">日本語</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-id.md">Indonesia</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-hi.md">हिंदी</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-bn.md">বাংলা</a>
-
-
-
-[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)](https://github.com/JunkFood02/Seal/releases/)
-[![Keep a Changelog](https://img.shields.io/badge/Changelog-lightgray?style=flat&color=gray&logo=keep-a-changelog)](https://github.com/JunkFood02/Seal/blob/main/CHANGELOG.md)
-[![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?label=Downloads&logo=github)](https://github.com/JunkFood02/Seal/releases/)
-[![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIC05NjAgOTYwIDk2MCIgd2lkdGg9IjI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwYXRoIGQ9Im0zNTQtMjQ3IDEyNi03NiAxMjYgNzctMzMtMTQ0IDExMS05Ni0xNDYtMTMtNTgtMTM2LTU4IDEzNS0xNDYgMTMgMTExIDk3LTMzIDE0M1pNMjMzLTgwbDY1LTI4MUw4MC01NTBsMjg4LTI1IDExMi0yNjUgMTEyIDI2NSAyODggMjUtMjE4IDE4OSA2NSAyODEtMjQ3LTE0OUwyMzMtODBabTI0Ny0zNTBaIiBzdHlsZT0iZmlsbDogcmdiKDI0NSwgMjI3LCA2Nik7Ii8%2BCjwvc3ZnPg%3D%3D&color=%23f8e444)](https://github.com/JunkFood02/Seal/stargazers)
-[![Supported-Sites](https://img.shields.io/badge/Sites-9cf?style=flat&logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0cHgiIGZpbGw9IiNGRkZGRkYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+CiAgPHBhdGggZD0iTTExLjk5IDJDNi40NyAyIDIgNi40OCAyIDEyczQuNDcgMTAgOS45OSAxMEMxNy41MiAyMiAyMiAxNy41MiAyMiAxMlMxNy41MiAyIDExLjk5IDJ6bTYuOTMgNmgtMi45NWMtLjMyLTEuMjUtLjc4LTIuNDUtMS4zOC0zLjU2IDEuODQuNjMgMy4zNyAxLjkxIDQuMzMgMy41NnpNMTIgNC4wNGMuODMgMS4yIDEuNDggMi41MyAxLjkxIDMuOTZoLTMuODJjLjQzLTEuNDMgMS4wOC0yLjc2IDEuOTEtMy45NnpNNC4yNiAxNEM0LjEgMTMuMzYgNCAxMi42OSA0IDEycy4xLTEuMzYuMjYtMmgzLjM4Yy0uMDguNjYtLjE0IDEuMzItLjE0IDJzLjA2IDEuMzQuMTQgMkg0LjI2em0uODIgMmgyLjk1Yy4zMiAxLjI1Ljc4IDIuNDUgMS4zOCAzLjU2LTEuODQtLjYzLTMuMzctMS45LTQuMzMtMy41NnptMi45NS04SDUuMDhjLjk2LTEuNjYgMi40OS0yLjkzIDQuMzMtMy41NkM4LjgxIDUuNTUgOC4zNSA2Ljc1IDguMDMgOHpNMTIgMTkuOTZjLS44My0xLjItMS40OC0yLjUzLTEuOTEtMy45NmgzLjgyYy0uNDMgMS40My0xLjA4IDIuNzYtMS45MSAzLjk2ek0xNC4zNCAxNEg5LjY2Yy0uMDktLjY2LS4xNi0xLjMyLS4xNi0ycy4wNy0xLjM1LjE2LTJoNC42OGMuMDkuNjUuMTYgMS4zMi4xNiAycy0uMDcgMS4zNC0uMTYgMnptLjI1IDUuNTZjLjYtMS4xMSAxLjA2LTIuMzEgMS4zOC0zLjU2aDIuOTVjLS45NiAxLjY1LTIuNDkgMi45My00LjMzIDMuNTZ6TTE2LjM2IDE0Yy4wOC0uNjYuMTQtMS4zMi4xNC0ycy0uMDYtMS4zNC0uMTQtMmgzLjM4Yy4xNi42NC4yNiAxLjMxLjI2IDJzLS4xIDEuMzYtLjI2IDJoLTMuMzh6IiBzdHlsZT0iZmlsbDogcmdiKDE2MiwgMTk4LCAyMzQpOyIvPgo8L3N2Zz4=&label=Supported)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
-[![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat&logo=telegram)](https://t.me/seal_app)
-[![Matrix](https://img.shields.io/matrix/seal-space%3Amatrix.org?server_fqdn=matrix.org&style=flat&logo=element&label=Matrix&color=%230DBD8B)
-](https://matrix.to/#/#seal-space:matrix.org)
-
+[Download the latest release](https://github.com/Obamna1234/UniFetch/releases/latest) · [How-to guide](HOW_TO.md) · [Changelog](CHANGELOG.md)
 
 </div>
 
+## What is UniFetch?
 
-## 📱 Screenshots
+UniFetch is a personal Android app for downloading video and audio from the many sites supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp). It is installed directly from this repository's Releases page (it is not on the Play Store).
 
-<div align="center">
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
-</div>
-</div>
+**UniFetch is a fork of [Seal](https://github.com/JunkFood02/Seal) by JunkFood02.** Almost everything that works today comes from Seal's excellent work. Many thanks to JunkFood02 and all of Seal's contributors and translators. UniFetch adds extra privacy, reliability and browsing features on top.
 
-<br>
+## Privacy
 
-## 📖 Features
+- **No tracking of any kind.** No analytics, crash reporting, telemetry, ads, Firebase or Google Play Services.
+- **Everything stays on your phone.** There are no UniFetch accounts or servers.
+- **The only internet connections** are to sites you choose to visit or download from, the official yt-dlp GitHub releases (to keep yt-dlp up to date), and this repository's Releases page (to check for UniFetch updates).
+- Crash reports are shown on your phone only. Nothing is sent unless you copy it and report it yourself.
+- Optional extras that contact a third party, such as yt-dlp's SponsorBlock option, are off unless you turn them on.
 
-- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly youtube-dl).
+## Features
 
-- Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
+Available now (from Seal):
 
-- Download all videos in the playlist with one click.
+- Download video or audio from any site supported by yt-dlp, including playlists
+- Choose formats and quality, embed subtitles, thumbnails and metadata
+- Several downloads at once, with a download history
+- Custom yt-dlp commands and templates
+- Share a link to UniFetch from any app to start a download
+- Material You design with light and dark themes, in many languages
 
-- Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads.
+Planned (see [the build plan](#roadmap)):
 
-- Embed subtitles into the downloaded videos.
+- Automatic yt-dlp updates (Nightly by default), with auto-retry when a site breaks
+- App lock, hidden from recents and screenshots, discreet notifications, quick wipe
+- Encrypted private vault with a built-in video player
+- Built-in private browser with up to 1000 tabs and video detection
+- Unlimited queue, duplicate detection and batch downloads
+- Disguised icon, folders and tags, and incognito mode
 
-- Execute custom yt-dlp commands with templates.
+UniFetch does not support DRM-protected content and never will.
 
-- Manage in-app downloads and custom command templates.
+## Install
 
-- Easy to use and user-friendly.
+1. On your phone, open the [latest release](https://github.com/Obamna1234/UniFetch/releases/latest).
+2. Download `UniFetch-<version>-arm64-v8a.apk`. That works on almost every modern phone. If you're not sure, use the `universal` APK instead.
+3. Open the downloaded file and allow "Install unknown apps" for your browser or file manager when asked.
 
-- [Material Design 3](https://m3.material.io/) style UI, with dynamic color theme.
+Step-by-step help, including updating and fixing failed installs, is in **[HOW_TO.md](HOW_TO.md)**.
 
-- MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.
+UniFetch uses its own app ID (`com.unifetch.app`), so it installs alongside Seal instead of replacing it. It needs Android 7.0 or newer.
 
+## Roadmap
 
+1. ✅ Fork setup: new name, app ID, icon, credits, GitHub builds
+2. Automatic yt-dlp updates and auto-retry
+3. Privacy basics: app lock, screenshot blocking, discreet notifications, backup exclusion, quick wipe
+4. Encrypted vault and built-in player
+5. Built-in browser with tab suspension and the 1000-tab limit
+6. Video detection in the browser
+7. Queue improvements, duplicate detection, batch downloads
+8. Disguised icon, organising downloads, incognito mode
 
-## ⬇️ Download
+## Building
 
-For most devices, it is recommended to install the **arm64-v8a** version of the apks
+You don't need a computer. GitHub Actions builds every change automatically:
 
-- Download the latest stable version from [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
-  - Install the [pre-release](https://github.com/JunkFood02/Seal/releases/) versions to help us test out new features & changes
+- Every push builds a **test APK**. Find it under the [Actions](https://github.com/Obamna1234/UniFetch/actions) tab → the latest "Build" run → **Artifacts**.
+- Pushing a version tag such as `v0.1.0` builds **signed release APKs** and publishes them on the [Releases](https://github.com/Obamna1234/UniFetch/releases) page.
 
-- Stable releases are also available on [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
+See [HOW_TO.md](HOW_TO.md) for details.
 
-<!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
+## Credits
 
-## 💬 Contact
+- [Seal](https://github.com/JunkFood02/Seal) by JunkFood02 and contributors, which UniFetch is based on
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp), [youtubedl-android](https://github.com/yausername/youtubedl-android), [FFmpeg](https://ffmpeg.org/) and [aria2](https://github.com/aria2/aria2)
+- The full list of libraries and their licences is in the app under Settings → About → Credits
 
-Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) for discussion, announcements, and releases!
+## Licence
 
-## 💖 Sponsors
-
-<p><!-- sponsors --><a href="https://github.com/Opposum102"><img src="https:&#x2F;&#x2F;github.com&#x2F;Opposum102.png" width="60px" alt="User avatar: " /></a><!-- sponsors --></p>
-
-
-Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
-
-## 🤝 Contributing
-
-Contributions are welcome!
-
-You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
-	
-[![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
-	
->[!Note]
->
->For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
-
-## ⭐️ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
-
-
-## 🧱 Credits
-
-Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
-
-Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
-
-[dvd](https://github.com/yausername/dvd)
-
-[Material color utilities](https://github.com/material-foundation/material-color-utilities)
-
-[Monet](https://github.com/Kyant0/Monet)
-
-## 📃 License
-
-[![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
-
->[!Warning]
->
->Except for the source code licensed under the GPLv3 license,
->all other parties are prohibited from using Seal's name as a downloader app,
->and the same is true for Seal's derivatives.
->Derivatives include but are not limited to forks and unofficial builds.
-
-<div align="right">
-<table><td>
-<a href="#start-of-content">👆 Scroll to top</a>
-</td></table>
-</div>
+UniFetch is free software under the [GNU General Public License v3.0](LICENSE), the same licence as Seal. Seal's original copyright notices are kept.
