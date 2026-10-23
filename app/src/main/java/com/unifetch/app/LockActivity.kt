@@ -16,7 +16,7 @@ import com.unifetch.app.ui.theme.SealTheme
 import com.unifetch.app.util.AppLock
 
 /**
- * The app lock screen. Opens on top of UniFetch (and any dialog it has open) while the app is
+ * The app lock screen. Opens on top of UniFetcher (and any dialog it has open) while the app is
  * locked, and closes itself once unlocked.
  */
 class LockActivity : FragmentActivity() {

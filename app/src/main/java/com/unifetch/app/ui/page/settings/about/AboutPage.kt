@@ -53,7 +53,7 @@ import com.unifetch.app.util.AUTO_UPDATE
 import com.unifetch.app.util.PreferenceUtil
 import com.unifetch.app.util.ToastUtil
 
-const val UniFetchRepository = "https://github.com/Obamna1234/UniFetch"
+const val UniFetchRepository = "https://github.com/Obamna1234/UniFetcher"
 const val UniFetchReleases = "$UniFetchRepository/releases"
 const val UniFetchLatestRelease = "$UniFetchReleases/latest"
 const val SealRepository = "https://github.com/JunkFood02/Seal"

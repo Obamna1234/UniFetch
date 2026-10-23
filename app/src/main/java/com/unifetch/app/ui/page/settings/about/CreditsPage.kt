@@ -69,7 +69,7 @@ fun CreditsPage(onNavigateBack: () -> Unit) {
 
     val creditsList =
         listOf(
-            Credit("Seal by JunkFood02 (UniFetch is a fork of Seal)", GPL_V3, SealRepository),
+            Credit("Seal by JunkFood02 (UniFetcher is a fork of Seal)", GPL_V3, SealRepository),
             Credit("yt-dlp", UNLICENSE, ytdlpUrl),
             Credit("Read You", GPL_V3, readYou),
             Credit("youtubedl-android", GPL_V3, youtubedlAndroidUrl),

@@ -71,9 +71,9 @@ fun TroubleShootingPage(
                         modifier = Modifier,
                         text = stringResource(R.string.issue_tracker_hint),
                     )
-                    val issueUrlUniFetch = "https://github.com/Obamna1234/UniFetch/issues"
+                    val issueUrlUniFetch = "https://github.com/Obamna1234/UniFetcher/issues"
                     PreferenceItem(
-                        title = "UniFetch Issue Tracker",
+                        title = "UniFetcher Issue Tracker",
                         description = null,
                         icon = Icons.AutoMirrored.Outlined.OpenInNew,
                         onClick = { uriHandler.openUri(issueUrlUniFetch) },

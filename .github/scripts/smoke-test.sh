@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs a UniFetch APK on the running emulator, opens it, and checks it is still running
+# Installs a UniFetcher APK on the running emulator, opens it, and checks it is still running
 # 25 seconds later. Prints the crash log if it isn't. Usage: smoke-test.sh <apk> <package>
 set -u
 APK="$1"
@@ -35,9 +35,9 @@ summary="$( (cat "$OUT/crash.txt"; echo; grep -E "AndroidRuntime|$PKG" "$OUT/log
 summary="${summary//'%'/'%25'}"
 summary="${summary//$'\r'/}"
 summary="${summary//$'\n'/'%0A'}"
-echo "::error title=UniFetch crashed on the emulator::$summary"
+echo "::error title=UniFetcher crashed on the emulator::$summary"
 echo "----- crash log -----"
 cat "$OUT/crash.txt"
-echo "----- UniFetch log lines -----"
-grep -E "AndroidRuntime|$PKG|UniFetch|unifetch" "$OUT/logcat.txt" | tail -n 120
+echo "----- UniFetcher log lines -----"
+grep -E "AndroidRuntime|$PKG|UniFetcher|unifetch" "$OUT/logcat.txt" | tail -n 120
 exit 1

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">UniFetch</string>
+    <string name="app_name" translatable="false">UniFetcher</string>
     <string name="video_directory">Video folder</string>
     <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
@@ -48,7 +48,7 @@
     <string name="privacy_notifications">Notifications</string>
     <string name="privacy_data">Data</string>
     <string name="app_lock">App lock</string>
-    <string name="app_lock_desc">Ask for a PIN, pattern or fingerprint to open UniFetch</string>
+    <string name="app_lock_desc">Ask for a PIN, pattern or fingerprint to open UniFetcher</string>
     <string name="app_lock_change">Change PIN or pattern</string>
     <string name="app_lock_change_desc">Set a new PIN or pattern</string>
     <string name="app_lock_fingerprint">Unlock with fingerprint</string>
@@ -61,8 +61,8 @@
     <string name="app_lock_timeout_5m">After 5 minutes</string>
     <string name="app_lock_timeout_15m">After 15 minutes</string>
     <string name="app_lock_saved">App lock is on</string>
-    <string name="app_lock_locked">UniFetch is locked</string>
-    <string name="app_lock_unlock_title">Unlock UniFetch</string>
+    <string name="app_lock_locked">UniFetcher is locked</string>
+    <string name="app_lock_unlock_title">Unlock UniFetcher</string>
     <string name="app_lock_unlock">Unlock</string>
     <string name="app_lock_pin">PIN</string>
     <string name="app_lock_pattern">Pattern</string>
@@ -81,15 +81,15 @@
     <string name="app_lock_no_match">They didn\'t match. Start again.</string>
     <string name="app_lock_next">Next</string>
     <string name="app_lock_save">Save</string>
-    <string name="app_lock_forget_warning">If you forget it, the only way back in is to clear UniFetch\'s storage in your phone\'s settings, which erases its history and settings (your downloaded files stay).</string>
+    <string name="app_lock_forget_warning">If you forget it, the only way back in is to clear UniFetcher\'s storage in your phone\'s settings, which erases its history and settings (your downloaded files stay).</string>
     <string name="secure_screen">Hide from recent apps and screenshots</string>
-    <string name="secure_screen_desc">UniFetch shows blank in the app switcher and can\'t be screenshotted or screen-recorded</string>
+    <string name="secure_screen_desc">UniFetcher shows blank in the app switcher and can\'t be screenshotted or screen-recorded</string>
     <string name="discreet_notifications">Discreet notifications</string>
-    <string name="discreet_notifications_desc">Only show \"UniFetch\", with no video titles or links, and hide notifications on the lock screen</string>
+    <string name="discreet_notifications_desc">Only show \"UniFetcher\", with no video titles or links, and hide notifications on the lock screen</string>
     <string name="notifications_off_hint">To turn download notifications off completely, go to Settings → General → Download notification.</string>
     <string name="quick_wipe">Quick wipe</string>
     <string name="quick_wipe_desc">Clear download history, cookies, browser data, thumbnails and cache. Downloaded files are kept.</string>
-    <string name="quick_wipe_confirm_title">Wipe UniFetch\'s data?</string>
+    <string name="quick_wipe_confirm_title">Wipe UniFetcher\'s data?</string>
     <string name="quick_wipe_confirm_msg">This clears your download history, saved cookies and logins, built-in browser data, cached thumbnails and temporary files. It can\'t be undone.\n\nYour downloaded videos and audio stay where they are, and your settings and app lock are kept.</string>
     <string name="quick_wipe_action">Wipe</string>
     <string name="quick_wipe_done">Wiped</string>
@@ -104,7 +104,7 @@
     <string name="menu_clear_failed_confirm">Remove failed and stopped downloads from this list? Nothing on your phone is deleted, but you won\'t be able to retry them from here.</string>
     <string name="storage_low_title">Storage almost full: downloads paused</string>
     <string name="storage_low_text">Less than 2 GB is free. Downloads already running carry on, and the rest will start automatically once you free up space.</string>
-    <string name="backup_excluded_info">UniFetch\'s data is never included in Google backups or transfers to a new phone.</string>
+    <string name="backup_excluded_info">UniFetcher\'s data is never included in Google backups or transfers to a new phone.</string>
     <string name="delete_info">Remove?</string>
     <string name="delete_info_msg">Remove \"%1$s\" from your download history for good?
     </string>
@@ -129,7 +129,7 @@
     <string name="credits">Credits</string>
     <string name="credits_desc">Credits and libre software</string>
     <string name="fork_of_seal">Based on Seal</string>
-    <string name="fork_of_seal_desc">UniFetch is a fork of Seal by JunkFood02, licensed under GPL-3.0</string>
+    <string name="fork_of_seal_desc">UniFetcher is a fork of Seal by JunkFood02, licensed under GPL-3.0</string>
     <string name="custom_command">Custom command</string>
     <string name="custom_command_desc">Run yt-dlp command with custom template</string>
     <string name="custom_command_template">Command template</string>
@@ -214,7 +214,7 @@
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
     <string name="battery_configuration">Battery configuration</string>
     <string name="battery_configuration_desc">Ignore battery optimization for this app to download in the background</string>
-    <string name="service_title">UniFetch is downloading…</string>
+    <string name="service_title">UniFetcher is downloading…</string>
     <string name="unknown_error">Unknown error</string>
     <string name="translate">Translate</string>
     <string name="translate_desc">Help translate this app on Hosted Weblate</string>
@@ -313,7 +313,7 @@
     <string name="custom_command_enabled_hint">Some options are unavailable when using custom command</string>
     <string name="how_does_it_work">How does it work?</string>
     <string name="cookies_usage_msg">Downloading from some sites requires account authentication information. Click \"Generate new cookies\", enter the URL of the website and then log in with your account in the browser page, the app will generate it for you.</string>
-    <string name="custom_command_usage_msg">yt-dlp is a powerful command-line tool for downloading videos. UniFetch makes it easier to use yt-dlp by providing an intuitive GUI, presets for common commands, and other additional features.\n\nFor advanced usage of yt-dlp, UniFetch allows you to create, save and execute custom command templates directly, just like in a terminal.\n\nWhen using custom commands, most of the GUI options and features would be disabled.</string>
+    <string name="custom_command_usage_msg">yt-dlp is a powerful command-line tool for downloading videos. UniFetcher makes it easier to use yt-dlp by providing an intuitive GUI, presets for common commands, and other additional features.\n\nFor advanced usage of yt-dlp, UniFetcher allows you to create, save and execute custom command templates directly, just like in a terminal.\n\nWhen using custom commands, most of the GUI options and features would be disabled.</string>
     <string name="telegram_channel">Telegram channel</string>
     <string name="matrix_space">Matrix space</string>
     <string name="sdcard_directory">SD card folder</string>
@@ -369,7 +369,7 @@
     <string name="temporary_directory_desc">Store temporary files in the internal directory</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">Support this app by sponsoring on GitHub</string>
-    <string name="sponsor_msg">UniFetch will be always free and open source for everyone. If you like it, please consider sponsoring me on GitHub!</string>
+    <string name="sponsor_msg">UniFetcher will be always free and open source for everyone. If you like it, please consider sponsoring me on GitHub!</string>
     <string name="feedback">Feedback</string>
     <string name="sponsors">Sponsors</string>
     <string name="audio_format">Audio format</string>
@@ -380,7 +380,7 @@
     <string name="clip_video_desc">Make video clips in the format selection page</string>
     <string name="embed_thumbnail" translatable="false">Embed thumbnail</string>
     <string name="embed_thumbnail_desc" translatable="false">Embed thumbnails into videos</string>
-    <string name="auto_update_disabled_msg">Auto-update is not available for %1$s builds. If you don\'t have %1$s installed on your device, or would like to preview upcoming new features in UniFetch, please consider %2$s.</string>
+    <string name="auto_update_disabled_msg">Auto-update is not available for %1$s builds. If you don\'t have %1$s installed on your device, or would like to preview upcoming new features in UniFetcher, please consider %2$s.</string>
     <string name="switch_to_github_builds">switching to GitHub builds</string>
     <string name="okay">Okay</string>
     <string name="got_it">Got it</string>

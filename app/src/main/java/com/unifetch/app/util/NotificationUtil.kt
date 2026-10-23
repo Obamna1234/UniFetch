@@ -44,7 +44,7 @@ object NotificationUtil {
     private val commandNotificationBuilder =
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_unifetch)
 
-    /** Discreet mode: only "UniFetch", no video titles, links or yt-dlp output. */
+    /** Discreet mode: only "UniFetcher", no video titles, links or yt-dlp output. */
     private val discreet: Boolean
         get() = NOTIFICATION_DISCREET.getBoolean()
 

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         context = this.baseContext
-        // A share that opened UniFetch fresh (not just onNewIntent while it was already open).
+        // A share that opened UniFetcher fresh (not just onNewIntent while it was already open).
         if (savedInstanceState == null) handleSharedLinks(intent)
         setContent {
             KoinContext {
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         handleSharedLinks(intent)
     }
 
-    /** Opens the download sheet with every link that was shared to UniFetch. */
+    /** Opens the download sheet with every link that was shared to UniFetcher. */
     private fun handleSharedLinks(intent: Intent?) {
         val urls = intent?.getSharedURLs().orEmpty()
         if (urls.isNotEmpty()) {

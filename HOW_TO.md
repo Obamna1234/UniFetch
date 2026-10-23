@@ -1,13 +1,13 @@
-# UniFetch how-to guide
+# UniFetcher how-to guide
 
-Simple step-by-step help for installing, updating and releasing UniFetch. Everything happens on your phone and on github.com. No computer needed.
+Simple step-by-step help for installing, updating and releasing UniFetcher. Everything happens on your phone and on github.com. No computer needed.
 
 **Contents**
 
-1. [Install UniFetch from Releases](#1-install-unifetch-from-releases)
+1. [Install UniFetcher from Releases](#1-install-unifetch-from-releases)
 2. [Allow "Install unknown apps"](#2-allow-install-unknown-apps)
 3. [Install a test build](#3-install-a-test-build)
-4. [Update UniFetch](#4-update-unifetch)
+4. [Update UniFetcher](#4-update-unifetch)
 5. [If an update fails to install](#5-if-an-update-fails-to-install)
 6. [Copy an error log and report a bug](#6-copy-an-error-log-and-report-a-bug)
 7. [Set up the signing key (one time)](#7-set-up-the-signing-key-one-time)
@@ -16,9 +16,9 @@ Simple step-by-step help for installing, updating and releasing UniFetch. Everyt
 
 ---
 
-## 1. Install UniFetch from Releases
+## 1. Install UniFetcher from Releases
 
-1. On your phone, open **https://github.com/Obamna1234/UniFetch/releases/latest** in Chrome or Samsung Internet.
+1. On your phone, open **https://github.com/Obamna1234/UniFetcher/releases/latest** in Chrome or Samsung Internet.
 2. Scroll down to **Assets** and tap to expand it if needed.
 3. Tap the file ending in **`-arm64-v8a.apk`**. This fits almost every phone from the last several years, including the Samsung Galaxy A55.
    - Older or unusual phone? Tap **`-universal.apk`** instead. It works everywhere but is bigger.
@@ -49,19 +49,19 @@ You can turn it off again after installing if you like.
 
 ## 3. Install a test build
 
-Every time new code is pushed, GitHub builds a test version of UniFetch. Test builds have a separate app ID, so they install as **"UniFetch Debug"** next to the normal app and don't touch its data.
+Every time new code is pushed, GitHub builds a test version of UniFetcher. Test builds have a separate app ID, so they install as **"UniFetcher Debug"** next to the normal app and don't touch its data.
 
 1. Sign in to github.com on your phone (test builds can only be downloaded when signed in).
-2. Open **https://github.com/Obamna1234/UniFetch/actions**.
+2. Open **https://github.com/Obamna1234/UniFetcher/actions**.
 3. Tap the newest run named **Build** that has a **green tick ✅**.
 4. Scroll down to **Artifacts** and tap the file ending in **`-arm64-v8a.apk`** (or **`-universal.apk`** for other phones).
 5. When it has downloaded, tap **Open** (or find it in **My Files → Downloads**), then **Install**.
 
-> Until the signing key is set up ([section 7](#7-set-up-the-signing-key-one-time)), each test build is signed differently. To install a newer test build, first uninstall the old "UniFetch Debug" (long-press its icon → **Uninstall**). After the key is set up, newer test builds install straight over older ones.
+> Until the signing key is set up ([section 7](#7-set-up-the-signing-key-one-time)), each test build is signed differently. To install a newer test build, first uninstall the old "UniFetcher Debug" (long-press its icon → **Uninstall**). After the key is set up, newer test builds install straight over older ones.
 
-## 4. Update UniFetch
+## 4. Update UniFetcher
 
-**From inside the app:** UniFetch checks this repository's Releases page for updates (Settings → About → Auto update). When an update is found, tap **Update**, then **Install**.
+**From inside the app:** UniFetcher checks this repository's Releases page for updates (Settings → About → Auto update). When an update is found, tap **Update**, then **Install**.
 
 **By hand:** follow [section 1](#1-install-unifetch-from-releases) again with the newer APK. Android installs it over the old version and **keeps all your data**, as long as it's an official release from this repository.
 
@@ -69,7 +69,7 @@ Every time new code is pushed, GitHub builds a test version of UniFetch. Test bu
 
 | What you see | What to do |
 |---|---|
-| **"App not installed"** or **"conflicts with an existing package"** | The installed copy was signed with a different key (for example an old test build, or a copy built somewhere else). Uninstall UniFetch, then install the new APK. ⚠️ Uninstalling deletes UniFetch's settings and history; downloaded videos in your Downloads folder stay. |
+| **"App not installed"** or **"conflicts with an existing package"** | The installed copy was signed with a different key (for example an old test build, or a copy built somewhere else). Uninstall UniFetcher, then install the new APK. ⚠️ Uninstalling deletes UniFetcher's settings and history; downloaded videos in your Downloads folder stay. |
 | **"App not installed"** and it's the same release you already have, or older | Android won't install an older or identical version over a newer one. Download the latest release instead. |
 | **"There was a problem parsing the package"** | The download was incomplete or you picked a file for a different phone type. Delete it, download again, and try the **universal** APK. |
 | **Nothing happens / install button greyed out** | Check [section 2](#2-allow-install-unknown-apps), and make sure you have at least 500 MB free storage. |
@@ -79,16 +79,16 @@ Still stuck? [Report a bug](#6-copy-an-error-log-and-report-a-bug) and say which
 
 ## 6. Copy an error log and report a bug
 
-**Copy the log in UniFetch:**
+**Copy the log in UniFetcher:**
 
 - **A download failed:** tap the failed download in the list and choose **Copy report**.
 - **The app crashed:** a crash screen appears. Tap **Copy and exit**.
 - **Your phone details:** go to **Settings → About** and tap **Version**. Your app version and phone info are copied.
-- **Need a screenshot?** UniFetch blocks screenshots by default. Turn off **Settings → Privacy & security → Hide from recent apps and screenshots** while you take it, then turn it back on.
+- **Need a screenshot?** UniFetcher blocks screenshots by default. Turn off **Settings → Privacy & security → Hide from recent apps and screenshots** while you take it, then turn it back on.
 
 **Report it on GitHub:**
 
-1. Open **https://github.com/Obamna1234/UniFetch/issues** (sign in first).
+1. Open **https://github.com/Obamna1234/UniFetcher/issues** (sign in first).
 2. Tap **New issue → Bug report**.
 3. Describe what you did and what went wrong.
 4. In **Error log**, long-press and **Paste** what you copied.
@@ -105,7 +105,7 @@ The key is stored in **GitHub Secrets**: hidden values that only the build can u
 
 **Add them to GitHub:**
 
-1. Open **https://github.com/Obamna1234/UniFetch/settings/secrets/actions**
+1. Open **https://github.com/Obamna1234/UniFetcher/settings/secrets/actions**
 2. Tap **New repository secret**, and add each of these (name exactly as shown, then paste the value):
 
    | Name | Value |
@@ -115,7 +115,7 @@ The key is stored in **GitHub Secrets**: hidden values that only the build can u
    | `UNIFETCH_KEY_ALIAS` | the key name |
    | `UNIFETCH_KEY_PASSWORD` | the key password |
 
-3. **Back up the keystore file and passwords** somewhere private and safe, such as a password manager. If they're lost, future versions can't update the installed app. You'd have to uninstall and lose UniFetch's data.
+3. **Back up the keystore file and passwords** somewhere private and safe, such as a password manager. If they're lost, future versions can't update the installed app. You'd have to uninstall and lose UniFetcher's data.
 
 ⚠️ Never put the keystore or passwords in the code, an issue, or any public place.
 
@@ -127,16 +127,16 @@ Version tags look like **`v1.2.3`**: raise the last number for fixes, the middle
 
 **Do it on github.com:**
 
-1. Make sure the newest **Build** run on the [Actions page](https://github.com/Obamna1234/UniFetch/actions) has a green tick ✅, and the signing key is set up ([section 7](#7-set-up-the-signing-key-one-time)).
-2. Open **https://github.com/Obamna1234/UniFetch/releases/new**
+1. Make sure the newest **Build** run on the [Actions page](https://github.com/Obamna1234/UniFetcher/actions) has a green tick ✅, and the signing key is set up ([section 7](#7-set-up-the-signing-key-one-time)).
+2. Open **https://github.com/Obamna1234/UniFetcher/releases/new**
 3. Tap **Choose a tag**, type the new version (e.g. `v0.1.0`) and tap **Create new tag: v0.1.0 on publish**. Leave the target as **main**.
 4. Type anything in the title (it will be replaced) and tap **Publish release**.
-5. Open the [Actions page](https://github.com/Obamna1234/UniFetch/actions). A run named **Release** starts. It takes about 10–20 minutes.
+5. Open the [Actions page](https://github.com/Obamna1234/UniFetcher/actions). A run named **Release** starts. It takes about 10–20 minutes.
 6. When it shows a green tick ✅, the APKs appear on the release automatically, ready to install ([section 1](#1-install-unifetch-from-releases)).
 
 > Publishing the release on github.com creates the tag, which starts the Release build. The build then fills in the APKs and notes on that same release.
 
-**If the Release run fails (red ✗):** tap it to see which step failed. "Missing GitHub Secrets" means [section 7](#7-set-up-the-signing-key-one-time) isn't finished. Fix it, delete the release *and* its tag (on the [Tags page](https://github.com/Obamna1234/UniFetch/tags)), and try again.
+**If the Release run fails (red ✗):** tap it to see which step failed. "Missing GitHub Secrets" means [section 7](#7-set-up-the-signing-key-one-time) isn't finished. Fix it, delete the release *and* its tag (on the [Tags page](https://github.com/Obamna1234/UniFetcher/tags)), and try again.
 
 ## 9. App lock and privacy settings
 
@@ -147,12 +147,12 @@ Everything here is in **Settings → Privacy & security**.
 1. Turn on **App lock**.
 2. Choose **PIN** or **Pattern**, enter it, then enter it again to confirm.
 3. Optional: turn on **Unlock with fingerprint** and touch the sensor once to confirm it works.
-4. Optional: tap **Lock after leaving the app** to choose how long UniFetch can be in the background before it asks again.
+4. Optional: tap **Lock after leaving the app** to choose how long UniFetcher can be in the background before it asks again.
 
-⚠️ **If you forget your PIN or pattern**, there is no reset. The only way back in is to clear UniFetch's storage (phone **Settings → Apps → UniFetch → Storage → Clear storage**). That erases UniFetch's history and settings, but your downloaded videos stay where they are.
+⚠️ **If you forget your PIN or pattern**, there is no reset. The only way back in is to clear UniFetcher's storage (phone **Settings → Apps → UniFetcher → Storage → Clear storage**). That erases UniFetcher's history and settings, but your downloaded videos stay where they are.
 
 **Other settings**
 
-- **Hide from recent apps and screenshots** (on by default): UniFetch shows as a blank card in the app switcher and can't be screenshotted.
-- **Discreet notifications:** notifications only say "UniFetch", with no video titles or links, and don't show on the lock screen. To turn download notifications off completely, use **Settings → General → Download notification**.
+- **Hide from recent apps and screenshots** (on by default): UniFetcher shows as a blank card in the app switcher and can't be screenshotted.
+- **Discreet notifications:** notifications only say "UniFetcher", with no video titles or links, and don't show on the lock screen. To turn download notifications off completely, use **Settings → General → Download notification**.
 - **Quick wipe:** clears download history, saved cookies and logins, built-in browser data, cached thumbnails and temporary files. Your downloaded files, settings and app lock are kept. It won't run while downloads are in progress.

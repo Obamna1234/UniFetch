@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in UniFetch isn't working
+description: Something in UniFetcher isn't working
 labels: [bug]
 body:
   - type: markdown
@@ -18,13 +18,13 @@ body:
     attributes:
       label: Error log
       description: |
-        Copy it from UniFetch: tap the failed download and choose "Copy report",
+        Copy it from UniFetcher: tap the failed download and choose "Copy report",
         or after a crash tap the copy button on the crash screen. Remove anything private first.
       render: text
   - type: input
     id: version
     attributes:
-      label: UniFetch version
+      label: UniFetcher version
       description: Settings → About → Version (tap it to copy device info)
     validations:
       required: true

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    UniFetch keeps all of its data on this phone: nothing is included in Google cloud backups or
+    UniFetcher keeps all of its data on this phone: nothing is included in Google cloud backups or
     in phone-to-phone transfers (Android 12 and newer). Older Android versions are covered by
     android:allowBackup="false" in the manifest.
 -->

@@ -1,4 +1,4 @@
-# Opens UniFetch on an Android emulator and checks it starts without crashing.
+# Opens UniFetcher on an Android emulator and checks it starts without crashing.
 # Tests the signed release build (the same kind of APK people install from Releases).
 name: Smoke test
 
@@ -62,7 +62,7 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Start emulator and open UniFetch
+      - name: Start emulator and open UniFetcher
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34

@@ -1,8 +1,13 @@
 # Changelog
 
-All notable changes to UniFetch are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
+All notable changes to UniFetcher (called UniFetch before v0.1.2) are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
 
 ## v0.1.2 - 2026-10-23
+
+### Renamed
+
+- **UniFetch is now UniFetcher**, because the name UniFetch is already used by other projects. It installs as an update over UniFetch and keeps all your settings and history
+- New downloads go to `Download/UniFetcher`. Files already in `Download/UniFetch` stay where they are
 
 ### Fixed
 

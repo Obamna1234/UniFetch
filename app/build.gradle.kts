@@ -114,7 +114,7 @@ android {
             }
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            resValue("string", "app_name", "UniFetch Debug")
+            resValue("string", "app_name", "UniFetcher Debug")
         }
     }
 
@@ -129,7 +129,7 @@ android {
         create("githubPreview") {
             dimension = "publishChannel"
             applicationIdSuffix = ".preview"
-            resValue("string", "app_name", "UniFetch Preview")
+            resValue("string", "app_name", "UniFetcher Preview")
         }
 
         create("fdroid") {
@@ -140,14 +140,14 @@ android {
 
     lint { disable.addAll(listOf("MissingTranslation", "ExtraTranslation", "MissingQuantity")) }
 
-    // APK names look like UniFetch-1.2.0-arm64-v8a.apk or UniFetch-1.2.0-universal.apk.
+    // APK names look like UniFetcher-1.2.0-arm64-v8a.apk or UniFetcher-1.2.0-universal.apk.
     // The in-app updater picks the right file by looking for the phone's ABI in the name.
     applicationVariants.all {
         val variant = this
         outputs.all {
             val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
             val abi = output.getFilter("ABI") ?: "universal"
-            output.outputFileName = "UniFetch-${variant.versionName}-$abi.apk"
+            output.outputFileName = "UniFetcher-${variant.versionName}-$abi.apk"
         }
     }
 

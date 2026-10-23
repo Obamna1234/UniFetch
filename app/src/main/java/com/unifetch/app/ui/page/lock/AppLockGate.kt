@@ -47,7 +47,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Shows [content], blanked out while UniFetch is locked so nothing shows before the lock screen
+ * Shows [content], blanked out while UniFetcher is locked so nothing shows before the lock screen
  * (a separate screen on top, [com.unifetch.app.LockActivity]) appears. The content stays in place
  * underneath, so unlocking returns to exactly where you were.
  */
