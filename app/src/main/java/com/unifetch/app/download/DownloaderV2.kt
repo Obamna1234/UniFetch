@@ -19,6 +19,7 @@ import com.unifetch.app.download.Task.DownloadState.Running
 import com.unifetch.app.download.Task.RestartableAction.Download
 import com.unifetch.app.download.Task.RestartableAction.FetchInfo
 import com.unifetch.app.download.Task.TypeInfo
+import com.unifetch.app.util.StorageGuard
 import com.unifetch.app.util.DownloadUtil
 import com.unifetch.app.util.FileUtil
 import com.unifetch.app.util.NotificationUtil
@@ -30,6 +31,7 @@ import kotlin.collections.component2
 import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -64,6 +66,45 @@ interface DownloaderV2 {
     }
 
     fun remove(task: Task): Boolean
+
+    // ---- Bulk actions for the download list's ⋮ menu ---------------------------------------
+
+    private fun tasksWhere(predicate: (DownloadState) -> Boolean): List<Task> =
+        getTaskStateMap().toMap().filter { (_, state) -> predicate(state.downloadState) }.keys.toList()
+
+    /**
+     * Stops every waiting and running download. They stay in the list and can be resumed.
+     *
+     * @return how many were stopped
+     */
+    fun cancelAll(): Int {
+        var stopped = 0
+        // Waiting ones first, so the queue can't start them while running ones are stopped.
+        // Repeat a couple of times in case one started in between.
+        repeat(3) {
+            val waiting = tasksWhere { it == Idle || it == ReadyWithInfo }
+            val running = tasksWhere { it is DownloadState.Cancelable }
+            if (waiting.isEmpty() && running.isEmpty()) return stopped
+            stopped += waiting.count { cancel(it) }
+            stopped += running.count { cancel(it) }
+        }
+        return stopped
+    }
+
+    /** Puts every failed download back in the queue. @return how many */
+    fun retryFailed(): Int =
+        tasksWhere { it is Error }.count { task -> runCatching { restart(task) }.isSuccess }
+
+    /** Resumes every stopped download. @return how many */
+    fun resumeCanceled(): Int =
+        tasksWhere { it is Canceled }.count { task -> runCatching { restart(task) }.isSuccess }
+
+    /** Removes finished downloads from this list. Files and download history are kept. */
+    fun clearFinished(): Int = tasksWhere { it is Completed }.count { remove(it) }
+
+    /** Removes failed and stopped downloads from this list. Nothing on the phone is deleted. */
+    fun clearFailedAndCanceled(): Int =
+        tasksWhere { it is Error || it is Canceled }.count { remove(it) }
 }
 
 internal object FakeDownloaderV2 : DownloaderV2 {
@@ -105,6 +146,14 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                 .map { it.countRunning() }
                 .distinctUntilChanged()
                 .collect { if (it > 0) App.startService() else App.stopService() }
+        }
+
+        // While paused for storage, check every 30 seconds and carry on once space is freed.
+        scope.launch(Dispatchers.Default) {
+            while (true) {
+                delay(30_000)
+                if (StorageGuard.paused.value) doYourWork()
+            }
         }
 
         scope.launch(Dispatchers.IO) {
@@ -216,8 +265,13 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
         get() = id.hashCode()
 
     /** Processes pending tasks, prioritizing downloads. */
+    @Synchronized
     private fun doYourWork() {
         if (taskStateMap.countRunning() >= MAX_CONCURRENCY) return
+        val hasWaiting =
+            taskStateMap.values.any { it.downloadState == ReadyWithInfo || it.downloadState == Idle }
+        // Nearly out of space: don't start anything new (the storage check re-runs this).
+        if (hasWaiting && !StorageGuard.canStartDownload()) return
 
         taskStateMap.entries
             .sortedBy { (_, state) -> state.downloadState }

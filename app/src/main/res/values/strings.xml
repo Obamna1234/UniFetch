@@ -94,6 +94,16 @@
     <string name="quick_wipe_action">Wipe</string>
     <string name="quick_wipe_done">Wiped</string>
     <string name="quick_wipe_busy">Downloads are running. Stop them first, then try again.</string>
+    <string name="more_actions">More actions</string>
+    <string name="menu_cancel_all">Stop all downloads</string>
+    <string name="menu_cancel_all_confirm">Stop every waiting and running download? They stay in the list, and you can resume them later with \"Resume stopped\".</string>
+    <string name="menu_resume_canceled">Resume stopped</string>
+    <string name="menu_retry_failed">Retry failed</string>
+    <string name="menu_clear_finished">Clear finished from list</string>
+    <string name="menu_clear_failed">Clear failed and stopped from list</string>
+    <string name="menu_clear_failed_confirm">Remove failed and stopped downloads from this list? Nothing on your phone is deleted, but you won\'t be able to retry them from here.</string>
+    <string name="storage_low_title">Storage almost full: downloads paused</string>
+    <string name="storage_low_text">Less than 2 GB is free. Downloads already running carry on, and the rest will start automatically once you free up space.</string>
     <string name="backup_excluded_info">UniFetch\'s data is never included in Google backups or transfers to a new phone.</string>
     <string name="delete_info">Remove?</string>
     <string name="delete_info_msg">Remove \"%1$s\" from your download history for good?
@@ -512,6 +522,10 @@
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
+    </plurals>
+    <plurals name="bulk_action_done">
+        <item quantity="one">Done: %d download</item>
+        <item quantity="other">Done: %d downloads</item>
     </plurals>
     <plurals name="video_count">
         <item quantity="one">%d video</item>

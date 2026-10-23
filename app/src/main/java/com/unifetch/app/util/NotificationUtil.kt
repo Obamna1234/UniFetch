@@ -272,6 +272,34 @@ object NotificationUtil {
             .run { notificationManager.notify(notificationId, build()) }
     }
 
+    private const val STORAGE_NOTIFICATION_ID = 124
+
+    /** Shown while the queue is paused because storage is almost full. No titles or links. */
+    fun notifyStorageLow() {
+        val openApp =
+            context.packageManager.getLaunchIntentForPackage(context.packageName)?.let {
+                PendingIntent.getActivity(context, STORAGE_NOTIFICATION_ID, it, PendingIntent.FLAG_IMMUTABLE)
+            }
+        val builder =
+            NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_stat_unifetch)
+                .setContentTitle(context.getString(R.string.storage_low_title))
+                .setContentText(context.getString(R.string.storage_low_text))
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(context.getString(R.string.storage_low_text))
+                )
+                .setOnlyAlertOnce(true)
+                .setAutoCancel(true)
+                .applyPrivacy()
+        openApp?.let { builder.setContentIntent(it) }
+        runCatching { notificationManager.notify(STORAGE_NOTIFICATION_ID, builder.build()) }
+    }
+
+    fun cancelStorageLowNotification() {
+        notificationManager.cancel(STORAGE_NOTIFICATION_ID)
+    }
+
     fun cancelAllNotifications() {
         notificationManager.cancelAll()
     }

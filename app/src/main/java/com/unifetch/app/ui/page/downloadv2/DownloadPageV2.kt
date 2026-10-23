@@ -48,6 +48,13 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import com.unifetch.app.util.StorageGuard
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -214,6 +221,18 @@ fun DownloadPageV2(
             dialogViewModel.postAction(Action.ShowSheet())
         },
         onMenuOpen = onMenuOpen,
+        onBulkAction = { action ->
+            view.slightHapticFeedback()
+            val count =
+                when (action) {
+                    BulkAction.CancelAll -> downloader.cancelAll()
+                    BulkAction.ResumeCanceled -> downloader.resumeCanceled()
+                    BulkAction.RetryFailed -> downloader.retryFailed()
+                    BulkAction.ClearFinished -> downloader.clearFinished()
+                    BulkAction.ClearFailed -> downloader.clearFailedAndCanceled()
+                }
+            context.makeToast(context.resources.getQuantityString(R.plurals.bulk_action_done, count, count))
+        },
     ) { task, action ->
         view.slightHapticFeedback()
         when (action) {
@@ -319,9 +338,11 @@ fun DownloadPageImplV2(
     taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
     downloadCallback: () -> Unit = {},
     onMenuOpen: (() -> Unit) = {},
+    onBulkAction: (BulkAction) -> Unit = {},
     onActionPost: (Task, UiAction) -> Unit,
 ) {
     var activeFilter by remember { mutableStateOf(Filter.All) }
+    val storagePaused by StorageGuard.paused.collectAsState()
     val filteredMap by
         remember(activeFilter) {
             derivedStateOf { taskDownloadStateMap.filter { activeFilter.predict(it.toPair()) } }
@@ -446,9 +467,12 @@ fun DownloadPageImplV2(
                                 audioCount = filteredMap.size - videoCount,
                                 isGridView = isGridView,
                                 onToggleView = { isGridView = !isGridView },
-                                onShowMenu = { context.makeToast("Not implemented yet!") },
+                                onBulkAction = onBulkAction,
                             )
                         }
+                    }
+                    if (storagePaused) {
+                        item(span = { GridItemSpan(maxLineSpan) }) { StorageLowBanner() }
                     }
 
                     if (isGridView) {
@@ -668,8 +692,10 @@ fun SubHeader(
     audioCount: Int = 0,
     isGridView: Boolean = true,
     onToggleView: () -> Unit,
-    onShowMenu: () -> Unit,
+    onBulkAction: (BulkAction) -> Unit,
 ) {
+    var showMenu by remember { mutableStateOf(false) }
+    var confirmAction by remember { mutableStateOf<BulkAction?>(null) }
     val text = buildString {
         if (videoCount > 0) {
             append(pluralStringResource(R.plurals.video_count, videoCount).format(videoCount))
@@ -711,15 +737,88 @@ fun SubHeader(
 
         Spacer(Modifier.width(4.dp))
 
-        FilledIconButton(
-            onClick = onShowMenu,
-            modifier = Modifier.clearAndSetSemantics {}.size(32.dp),
-            colors = IconButtonDefaults.filledIconButtonColors(containerColor = containerColor),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.MoreVert,
-                contentDescription = null,
-                modifier = Modifier.size(16.dp),
+        Box {
+            FilledIconButton(
+                onClick = { showMenu = true },
+                modifier = Modifier.size(32.dp),
+                colors = IconButtonDefaults.filledIconButtonColors(containerColor = containerColor),
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.MoreVert,
+                    contentDescription = stringResource(R.string.more_actions),
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                BulkAction.entries.forEach { action ->
+                    DropdownMenuItem(
+                        text = { Text(stringResource(action.labelRes)) },
+                        onClick = {
+                            showMenu = false
+                            if (action.needsConfirmation) confirmAction = action
+                            else onBulkAction(action)
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    confirmAction?.let { action ->
+        AlertDialog(
+            onDismissRequest = { confirmAction = null },
+            title = { Text(stringResource(action.labelRes)) },
+            text = { action.confirmMessageRes?.let { Text(stringResource(it)) } },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmAction = null
+                        onBulkAction(action)
+                    }
+                ) {
+                    Text(stringResource(R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmAction = null }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+        )
+    }
+}
+
+/** Actions in the ⋮ menu above the download list. */
+enum class BulkAction(
+    val labelRes: Int,
+    val needsConfirmation: Boolean = false,
+    val confirmMessageRes: Int? = null,
+) {
+    CancelAll(R.string.menu_cancel_all, true, R.string.menu_cancel_all_confirm),
+    ResumeCanceled(R.string.menu_resume_canceled),
+    RetryFailed(R.string.menu_retry_failed),
+    ClearFinished(R.string.menu_clear_finished),
+    ClearFailed(R.string.menu_clear_failed, true, R.string.menu_clear_failed_confirm),
+}
+
+@Composable
+private fun StorageLowBanner() {
+    Surface(
+        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+        shape = MaterialTheme.shapes.medium,
+        color = MaterialTheme.colorScheme.errorContainer,
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.storage_low_title),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+            )
+            Text(
+                text = stringResource(R.string.storage_low_text),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                modifier = Modifier.padding(top = 4.dp),
             )
         }
     }
