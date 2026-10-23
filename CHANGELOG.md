@@ -2,6 +2,13 @@
 
 All notable changes to UniFetch are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v0.1.1 - 2026-10-23
+
+### Fixed
+
+- UniFetch closed instantly when opened (v0.1.0). The app lock was reading settings before the app had finished starting up
+- Added an automatic emulator test that opens every build, so this can't slip through again
+
 ## v0.1.0 - 2026-10-23
 
 The first UniFetch release.

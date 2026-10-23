@@ -61,7 +61,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
-        AppLock.init(this)
 
         startKoin {
             androidLogger()
@@ -78,6 +77,8 @@ class App : Application() {
         }
 
         context = applicationContext
+        // Needs [context] (saved settings and the database use it), so it must come after it.
+        AppLock.init(this)
         packageInfo =
             packageManager.run {
                 if (Build.VERSION.SDK_INT >= 33)
