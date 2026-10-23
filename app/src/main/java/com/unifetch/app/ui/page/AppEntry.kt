@@ -97,8 +97,17 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
         }
     }
 
-    if (sheetState is DownloadDialogViewModel.SheetState.Configure) {
-        if (navController.currentDestination?.route != Route.HOME) {
+    val sheetValue by dialogViewModel.sheetValueFlow.collectAsStateWithLifecycle()
+
+    // When the download sheet opens (e.g. a link shared from another app), go back to the home
+    // screen so it can be seen. Only while the sheet is actually open: after a download starts,
+    // the sheet is hidden but its state stays "Configure", which used to block all navigation.
+    LaunchedEffect(sheetState, sheetValue) {
+        if (
+            sheetValue == DownloadDialogViewModel.SheetValue.Expanded &&
+                sheetState is DownloadDialogViewModel.SheetState.Configure &&
+                navController.currentDestination?.route != Route.HOME
+        ) {
             navController.popBackStack(route = Route.HOME, inclusive = false, saveState = true)
         }
     }
