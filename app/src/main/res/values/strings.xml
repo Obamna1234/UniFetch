@@ -102,6 +102,8 @@
     <string name="menu_clear_finished">Clear finished from list</string>
     <string name="menu_clear_failed">Clear failed and stopped from list</string>
     <string name="menu_clear_failed_confirm">Remove failed and stopped downloads from this list? Nothing on your phone is deleted, but you won\'t be able to retry them from here.</string>
+    <string name="directory_not_on_phone">That folder is on an SD card or USB drive. Use \"SD card or USB drive folder\" further down this page instead.</string>
+    <string name="sdcard_unavailable_saved_to_phone">The SD card or USB drive wasn\'t available, so the download was saved to the phone instead.</string>
     <string name="storage_low_title">Storage almost full: downloads paused</string>
     <string name="storage_low_text">Less than 2 GB is free. Downloads already running carry on, and the rest will start automatically once you free up space.</string>
     <string name="backup_excluded_info">UniFetcher\'s data is never included in Google backups or transfers to a new phone.</string>
@@ -316,7 +318,7 @@
     <string name="custom_command_usage_msg">yt-dlp is a powerful command-line tool for downloading videos. UniFetcher makes it easier to use yt-dlp by providing an intuitive GUI, presets for common commands, and other additional features.\n\nFor advanced usage of yt-dlp, UniFetcher allows you to create, save and execute custom command templates directly, just like in a terminal.\n\nWhen using custom commands, most of the GUI options and features would be disabled.</string>
     <string name="telegram_channel">Telegram channel</string>
     <string name="matrix_space">Matrix space</string>
-    <string name="sdcard_directory">SD card folder</string>
+    <string name="sdcard_directory">SD card or USB drive folder</string>
     <string name="auto_subtitle">Automatic captions</string>
     <string name="auto_subtitle_desc">Download auto-generated captions</string>
     <string name="title_activity_share">Quick download</string>

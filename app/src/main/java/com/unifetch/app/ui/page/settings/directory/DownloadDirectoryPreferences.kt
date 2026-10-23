@@ -201,7 +201,13 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
         ) {
             it?.let { uri ->
                 App.updateDownloadDir(uri, editingDirectory)
-                if (editingDirectory != Directory.SDCARD) {
+                if (editingDirectory == Directory.SDCARD) {
+                    // Show the chosen folder and switch SD card / USB saving on. (Previously the
+                    // folder was saved but the switch never turned on, so it looped.)
+                    sdcardUri = uri.toString()
+                    sdcardDownload = true
+                    PreferenceUtil.updateValue(SDCARD_DOWNLOAD, true)
+                } else {
                     val path = FileUtil.getRealPath(uri)
                     when (editingDirectory) {
                         Directory.AUDIO -> {
