@@ -29,6 +29,13 @@ if adb shell pidof "$PKG" > /dev/null 2>&1 && [ ! -s "$OUT/crash.txt" ]; then
 fi
 
 echo "FAIL: $PKG crashed or is not running."
+# Also report the crash as a GitHub error note, so it shows on the run's summary page.
+summary="$( (cat "$OUT/crash.txt"; echo; grep -E "AndroidRuntime|$PKG" "$OUT/logcat.txt" | tail -n 40) | head -c 3500)"
+[ -z "$summary" ] && summary="No crash lines found. The app is not running."
+summary="${summary//'%'/'%25'}"
+summary="${summary//$'\r'/}"
+summary="${summary//$'\n'/'%0A'}"
+echo "::error title=UniFetch crashed on the emulator::$summary"
 echo "----- crash log -----"
 cat "$OUT/crash.txt"
 echo "----- UniFetch log lines -----"
