@@ -766,6 +766,9 @@ object DownloadUtil {
 
                     if (sdcard) {
                         addOption("-P", context.getSdcardTempDir(videoInfo.id).absolutePath)
+                        // SD cards and USB drives (exFAT/FAT32) reject characters such as : ? |
+                        // that are common in video titles.
+                        addOption("--windows-filenames")
                     } else {
                         addOption("-P", pathBuilder.toString())
                     }

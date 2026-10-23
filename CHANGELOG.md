@@ -2,6 +2,15 @@
 
 All notable changes to UniFetcher (called UniFetch before v0.1.2) are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v0.1.4 - 2026-10-23
+
+### Downloads go straight to your SD card or USB drive
+
+- With **SD card or USB drive folder** turned on and the drive plugged in, videos now download directly onto the drive. Before, each video went to the phone first, so a nearly full phone blocked downloads even with a big drive attached
+- The storage guard now checks free space on the drive in that case, not on the phone
+- File names that SD cards and USB drives can't store (with characters like `:` `?` `|`) are adjusted automatically
+- If your phone doesn't let apps write straight to the drive, UniFetcher falls back to downloading via the phone as before
+
 ## v0.1.3 - 2026-10-23
 
 ### Saving to an SD card or USB drive

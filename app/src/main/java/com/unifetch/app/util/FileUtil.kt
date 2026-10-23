@@ -16,6 +16,7 @@ import androidx.documentfile.provider.DocumentFile
 import com.unifetch.app.App
 import com.unifetch.app.App.Companion.context
 import com.unifetch.app.R
+import com.unifetch.app.util.PreferenceUtil.getString
 import java.io.File
 
 const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
@@ -250,8 +251,34 @@ object FileUtil {
             createEmptyFile(".nomedia")
         }
 
+    /**
+     * Where downloads for the SD card / USB drive option are written before being copied into
+     * the chosen folder. Uses UniFetcher's private folder on that same drive when Android makes
+     * it available, so the phone's own storage isn't needed. Otherwise falls back to the phone.
+     */
     fun Context.getSdcardTempDir(child: String?): File =
-        getExternalTempDir().run { child?.let { resolve(it) } ?: this }
+        (getDriveWorkDir() ?: getExternalTempDir()).run { child?.let { resolve(it) } ?: this }
+
+    /** UniFetcher's private "tmp" folder on the drive chosen in settings, or null if unavailable. */
+    fun Context.getDriveWorkDir(): File? {
+        val treeUri = SDCARD_URI.getString()
+        if (treeUri.isEmpty()) return null
+        return runCatching {
+                // e.g. "1A2B-3C4D:Videos" -> "1A2B-3C4D". "primary" is the phone's own storage.
+                val volumeId =
+                    DocumentsContract.getTreeDocumentId(Uri.parse(treeUri)).substringBefore(':')
+                if (volumeId.isEmpty() || volumeId == "primary") null
+                else
+                    getExternalFilesDirs(null)
+                        .filterNotNull()
+                        .firstOrNull { it.absolutePath.contains("/$volumeId/") }
+                        ?.resolve("tmp")
+                        ?.apply { mkdirs() }
+                        ?.takeIf { it.isDirectory && it.canWrite() }
+            }
+            .onFailure { Log.w(TAG, "drive work folder unavailable", it) }
+            .getOrNull()
+    }
 
     fun Context.getArchiveFile(): File = filesDir.createEmptyFile("archive.txt").getOrThrow()
 

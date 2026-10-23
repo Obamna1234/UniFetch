@@ -3,6 +3,8 @@ package com.unifetch.app.util
 import android.os.Environment
 import android.util.Log
 import com.unifetch.app.App
+import com.unifetch.app.util.FileUtil.getSdcardTempDir
+import com.unifetch.app.util.PreferenceUtil.getBoolean
 import java.io.File
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,11 +25,19 @@ object StorageGuard {
     /** True while the queue is paused because storage is almost full. */
     val paused: StateFlow<Boolean> = mutablePaused.asStateFlow()
 
-    /** Free space where downloads are saved, or null if it can't be read. */
+    /**
+     * The folder downloads are written to while downloading: the SD card / USB drive (when that
+     * option is on and Android makes the drive available) or the phone's download folder.
+     */
+    private fun downloadWorkFolder(): File =
+        if (SDCARD_DOWNLOAD.getBoolean()) App.context.getSdcardTempDir(null)
+        else File(App.videoDownloadDir)
+
+    /** Free space where downloads are written, or null if it can't be read. */
     fun freeBytes(): Long? =
         runCatching {
-                // The download folder may not exist yet: use the nearest folder that does.
-                var folder: File? = File(App.videoDownloadDir)
+                // The folder may not exist yet: use the nearest folder that does.
+                var folder: File? = downloadWorkFolder()
                 while (folder != null && !folder.exists()) folder = folder.parentFile
                 (folder ?: Environment.getExternalStorageDirectory()).usableSpace
             }
