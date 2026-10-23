@@ -2,6 +2,18 @@
 
 All notable changes to UniFetch are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v0.1.2 - 2026-10-23
+
+### Fixed
+
+- After starting downloads, tapping Settings, Commands and other screens did nothing until the app was restarted
+
+### New
+
+- **Share all tabs → UniFetch** now takes every link, not just the first (repeats are removed)
+- The ⋮ menu above the download list works: stop all, resume stopped, retry failed, clear finished, clear failed/stopped
+- **Storage guard:** with less than 2 GB free, new downloads wait instead of failing. A banner and notification explain why, and the queue carries on by itself once space is freed
+
 ## v0.1.1 - 2026-10-23
 
 ### Fixed
