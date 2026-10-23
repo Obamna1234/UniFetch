@@ -96,6 +96,12 @@ fun matchUrlFromSharedText(s: String): String {
     }
 }
 
+/** Every link in shared text (e.g. "Share all tabs" from a browser), in order, without repeats. */
+fun matchAllUrlsFromSharedText(s: String): List<String> =
+    findURLsFromString(s).distinct().also {
+        if (it.isEmpty()) ToastUtil.makeToast(R.string.share_fail_msg)
+    }
+
 fun Number?.toBitrateText(): String {
     val br = this?.toFloat() ?: return ""
     return when {

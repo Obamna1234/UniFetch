@@ -16,7 +16,7 @@ import com.unifetch.app.ui.page.lock.AppLockGate
 import com.unifetch.app.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.unifetch.app.ui.theme.SealTheme
 import com.unifetch.app.util.PreferenceUtil
-import com.unifetch.app.util.matchUrlFromSharedText
+import com.unifetch.app.util.matchAllUrlsFromSharedText
 import com.unifetch.app.util.setLanguage
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         context = this.baseContext
+        // A share that opened UniFetch fresh (not just onNewIntent while it was already open).
+        if (savedInstanceState == null) handleSharedLinks(intent)
         setContent {
             KoinContext {
                 val windowSizeClass = calculateWindowSizeClass(this)
@@ -54,39 +56,39 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val url = intent.getSharedURL()
-        if (url != null) {
-            dialogViewModel.postAction(DownloadDialogViewModel.Action.ShowSheet(listOf(url)))
+        handleSharedLinks(intent)
+    }
+
+    /** Opens the download sheet with every link that was shared to UniFetch. */
+    private fun handleSharedLinks(intent: Intent?) {
+        val urls = intent?.getSharedURLs().orEmpty()
+        if (urls.isNotEmpty()) {
+            dialogViewModel.postAction(DownloadDialogViewModel.Action.ShowSheet(urls))
         }
     }
 
-    private fun Intent.getSharedURL(): String? {
+    private fun Intent.getSharedURLs(): List<String> {
         val intent = this
 
         return when (intent.action) {
             Intent.ACTION_VIEW -> {
-                intent.dataString
+                listOfNotNull(intent.dataString)
             }
 
             Intent.ACTION_SEND -> {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedContent ->
                     intent.removeExtra(Intent.EXTRA_TEXT)
-                    matchUrlFromSharedText(sharedContent).also { matchedUrl ->
-                        if (sharedUrlCached != matchedUrl) {
-                            sharedUrlCached = matchedUrl
-                        }
-                    }
-                }
+                    matchAllUrlsFromSharedText(sharedContent)
+                } ?: emptyList()
             }
 
             else -> {
-                null
+                emptyList()
             }
         }
     }
 
     companion object {
         private const val TAG = "MainActivity"
-        private var sharedUrlCached = ""
     }
 }

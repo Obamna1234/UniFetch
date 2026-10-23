@@ -31,7 +31,7 @@ import com.unifetch.app.ui.page.downloadv2.configure.PlaylistSelectionPage
 import com.unifetch.app.ui.theme.SealTheme
 import com.unifetch.app.util.DownloadUtil
 import com.unifetch.app.util.PreferenceUtil
-import com.unifetch.app.util.matchUrlFromSharedText
+import com.unifetch.app.util.matchAllUrlsFromSharedText
 import com.unifetch.app.util.setLanguage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -40,20 +40,20 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 private const val TAG = "QuickDownloadActivity"
 
 class QuickDownloadActivity : ComponentActivity() {
-    private var sharedUrlCached: String = ""
+    private var sharedUrlsCached: List<String> = emptyList()
 
-    private fun Intent.getSharedURL(): String? {
+    private fun Intent.getSharedURLs(): List<String>? {
         val intent = this
 
         return when (intent.action) {
             Intent.ACTION_VIEW -> {
-                intent.dataString
+                intent.dataString?.let { listOf(it) }
             }
 
             Intent.ACTION_SEND -> {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedContent ->
                     intent.removeExtra(Intent.EXTRA_TEXT)
-                    matchUrlFromSharedText(sharedContent)
+                    matchAllUrlsFromSharedText(sharedContent)
                 }
             }
 
@@ -66,9 +66,9 @@ class QuickDownloadActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intent.getSharedURL()?.let { sharedUrlCached = it }
+        intent.getSharedURLs()?.takeIf { it.isNotEmpty() }?.let { sharedUrlsCached = it }
 
-        if (sharedUrlCached.isEmpty()) {
+        if (sharedUrlsCached.isEmpty()) {
             finish()
         }
 
@@ -94,7 +94,7 @@ class QuickDownloadActivity : ComponentActivity() {
         }
 
         val viewModel: DownloadDialogViewModel = getViewModel()
-        viewModel.postAction(Action.ShowSheet(listOf(sharedUrlCached)))
+        viewModel.postAction(Action.ShowSheet(sharedUrlsCached))
 
         setContent {
             SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
