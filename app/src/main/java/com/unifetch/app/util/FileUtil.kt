@@ -9,13 +9,14 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.util.Log
 import android.webkit.MimeTypeMap
+import java.io.IOException
 import androidx.annotation.CheckResult
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
+import com.unifetch.app.App
 import com.unifetch.app.App.Companion.context
 import com.unifetch.app.R
 import java.io.File
-import okhttp3.internal.closeQuietly
 
 const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
 const val THUMBNAIL_REGEX = "\\.(jpg|png)$"
@@ -126,43 +127,105 @@ object FileUtil {
                 MediaScannerConnection.scanFile(context, this.toList().toTypedArray(), null, null)
             }
 
+    /**
+     * Copies finished downloads from [tempPath] to the SD card or USB drive folder chosen in
+     * settings, then deletes each temporary file once its copy is complete.
+     *
+     * Never loses a download: if the drive is missing, full or not writable, the files are moved
+     * to the phone's download folder instead (without overwriting anything), and the user is told.
+     */
     @CheckResult
     fun moveFilesToSdcard(tempPath: File, sdcardUri: String): Result<List<String>> {
-        val uriList = mutableListOf<String>()
+        val saved = mutableListOf<String>()
+        val notCopied = mutableListOf<File>()
+
         val destDir =
-            Uri.parse(sdcardUri).run {
-                DocumentsContract.buildDocumentUriUsingTree(
-                    this,
-                    DocumentsContract.getTreeDocumentId(this),
+            runCatching {
+                    Uri.parse(sdcardUri).run {
+                        DocumentsContract.buildDocumentUriUsingTree(
+                            this,
+                            DocumentsContract.getTreeDocumentId(this),
+                        )
+                    }
+                }
+                .onFailure { Log.w(TAG, "SD card / USB folder is not usable", it) }
+                .getOrNull()
+
+        tempPath.walkTopDown().filter { it.isFile }.forEach { file ->
+            val copied = destDir?.let { copyToTree(file, it) }
+            if (copied != null) {
+                saved += copied.toString()
+                file.delete()
+            } else {
+                notCopied += file
+            }
+        }
+
+        if (notCopied.isNotEmpty()) {
+            // Fall back to the phone's download folder so nothing is lost.
+            val fallbackDir = File(App.videoDownloadDir).apply { mkdirs() }
+            val stillStuck = mutableListOf<File>()
+            notCopied.forEach { file ->
+                val target = uniqueFile(fallbackDir, file.name)
+                val moved =
+                    runCatching { file.renameTo(target) || (file.copyTo(target).exists() && file.delete()) }
+                        .getOrDefault(false)
+                if (moved) saved += target.absolutePath else stillStuck += file
+            }
+            if (saved.isNotEmpty()) {
+                MediaScannerConnection.scanFile(
+                    context,
+                    saved.filter { it.startsWith("/") }.toTypedArray(),
+                    null,
+                    null,
                 )
             }
-        val res =
-            tempPath.runCatching {
-                walkTopDown().forEach {
-                    if (it.isDirectory) return@forEach
-                    val mimeType =
-                        MimeTypeMap.getSingleton().getMimeTypeFromExtension(it.extension) ?: "*/*"
-
-                    val destUri =
-                        DocumentsContract.createDocument(
-                            context.contentResolver,
-                            destDir,
-                            mimeType,
-                            it.name,
-                        ) ?: return@forEach
-
-                    val inputStream = it.inputStream()
-                    val outputStream =
-                        context.contentResolver.openOutputStream(destUri) ?: return@forEach
-                    inputStream.copyTo(outputStream)
-                    inputStream.closeQuietly()
-                    outputStream.closeQuietly()
-                    uriList.add(destUri.toString())
-                }
-                uriList
+            ToastUtil.makeToastSuspend(context.getString(R.string.sdcard_unavailable_saved_to_phone))
+            if (stillStuck.isNotEmpty()) {
+                // Leave the files where they are rather than deleting them.
+                return Result.failure(
+                    IllegalStateException(
+                        "Couldn't save to the SD card or USB drive, or to the phone. The file is " +
+                            "kept in ${tempPath.absolutePath}"
+                    )
+                )
             }
+        }
+
         tempPath.deleteRecursively()
-        return res
+        return Result.success(saved)
+    }
+
+    /** Copies [file] into the folder [destDir]; returns the new file's address, or null on failure. */
+    private fun copyToTree(file: File, destDir: Uri): Uri? {
+        val resolver = context.contentResolver
+        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(file.extension) ?: "*/*"
+        var destUri: Uri? = null
+        return try {
+            destUri = DocumentsContract.createDocument(resolver, destDir, mimeType, file.name)
+                ?: return null
+            val output = resolver.openOutputStream(destUri) ?: throw IOException("can't write")
+            file.inputStream().use { input -> output.use { input.copyTo(it) } }
+            destUri
+        } catch (e: Exception) {
+            Log.w(TAG, "copy to SD card / USB drive failed: ${file.name}", e)
+            // Remove a half-written copy so it isn't mistaken for a complete file.
+            destUri?.let { runCatching { DocumentsContract.deleteDocument(resolver, it) } }
+            null
+        }
+    }
+
+    /** [name] in [dir], or "name (1).ext", "name (2).ext"… if it already exists. Never overwrites. */
+    private fun uniqueFile(dir: File, name: String): File {
+        var candidate = File(dir, name)
+        val base = candidate.nameWithoutExtension
+        val ext = candidate.extension.let { if (it.isEmpty()) "" else ".$it" }
+        var n = 1
+        while (candidate.exists()) {
+            candidate = File(dir, "$base ($n)$ext")
+            n++
+        }
+        return candidate
     }
 
     fun clearTempFiles(downloadDir: File): Int {
@@ -217,7 +280,7 @@ object FileUtil {
         val path: String = treeUri.path.toString()
         Log.d(TAG, path)
         if (!path.contains("primary:")) {
-            ToastUtil.makeToast("This directory is not supported")
+            ToastUtil.makeToast(R.string.directory_not_on_phone)
             return getExternalDownloadDirectory().absolutePath
         }
         val last: String = path.split("primary:").last()
