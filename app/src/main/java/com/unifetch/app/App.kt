@@ -77,8 +77,6 @@ class App : Application() {
         }
 
         context = applicationContext
-        // Needs [context] (saved settings and the database use it), so it must come after it.
-        AppLock.init(this)
         packageInfo =
             packageManager.run {
                 if (Build.VERSION.SDK_INT >= 33)
@@ -114,6 +112,8 @@ class App : Application() {
         }
         if (Build.VERSION.SDK_INT >= 26) NotificationUtil.createNotificationChannel()
         YtdlpUpdateWorker.schedule(this)
+        // Last: reading settings loads the database code, which needs context and applicationScope.
+        AppLock.init(this)
 
         Thread.setDefaultUncaughtExceptionHandler { _, e -> startCrashReportActivity(e) }
     }
