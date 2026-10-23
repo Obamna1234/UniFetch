@@ -12,6 +12,9 @@ All notable changes to UniFetcher (called UniFetch before v0.1.2) are listed her
 ### Fixed
 
 - After starting downloads, tapping Settings, Commands and other screens did nothing until the app was restarted
+- The SD card folder switch wouldn't turn on after choosing a folder (it kept reopening the folder picker)
+- If the SD card or USB drive was unavailable when a download finished, the downloaded file was deleted. Now it's saved to the phone instead and you're told
+- Choosing an SD card or USB drive as the video folder now explains to use the "SD card or USB drive folder" option instead
 
 ### New
 
