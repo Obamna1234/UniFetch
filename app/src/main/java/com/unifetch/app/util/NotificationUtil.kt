@@ -280,15 +280,13 @@ object NotificationUtil {
             context.packageManager.getLaunchIntentForPackage(context.packageName)?.let {
                 PendingIntent.getActivity(context, STORAGE_NOTIFICATION_ID, it, PendingIntent.FLAG_IMMUTABLE)
             }
+        val message = StorageGuard.lowMessage(context)
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_unifetch)
                 .setContentTitle(context.getString(R.string.storage_low_title))
-                .setContentText(context.getString(R.string.storage_low_text))
-                .setStyle(
-                    NotificationCompat.BigTextStyle()
-                        .bigText(context.getString(R.string.storage_low_text))
-                )
+                .setContentText(message)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(message))
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true)
                 .applyPrivacy()

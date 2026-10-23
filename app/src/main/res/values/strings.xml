@@ -105,7 +105,16 @@
     <string name="directory_not_on_phone">That folder is on an SD card or USB drive. Use \"SD card or USB drive folder\" further down this page instead.</string>
     <string name="sdcard_unavailable_saved_to_phone">The SD card or USB drive wasn\'t available, so the download was saved to the phone instead.</string>
     <string name="storage_low_title">Storage almost full: downloads paused</string>
-    <string name="storage_low_text">Less than 2 GB is free where downloads are being saved (the phone, or your SD card or USB drive). Downloads already running carry on, and the rest will start automatically once space is freed.</string>
+    <string name="storage_low_text">Only %1$s free on %2$s, below your %3$s limit. Downloads already running carry on, and the rest start by themselves once space is freed. You can change the limit in Settings → Download directory.</string>
+    <string name="storage_location_phone">the phone</string>
+    <string name="storage_location_drive">the SD card or USB drive</string>
+    <string name="storage_limit_off">Off</string>
+    <string name="storage_limit">Pause downloads when free space is below</string>
+    <string name="storage_limit_desc">%1$s. New downloads wait instead of failing when storage is nearly full.</string>
+    <string name="storage_status">Where downloads are saved while downloading</string>
+    <string name="storage_status_phone">On the phone (%1$s free)</string>
+    <string name="storage_status_drive">Straight onto your SD card or USB drive (%1$s free there). Your phone\'s storage isn\'t used.</string>
+    <string name="storage_status_phone_then_drive">On the phone first (%1$s free), then copied to your drive. This phone doesn\'t let apps write straight to this drive, so each video needs room on the phone while it downloads. Lowering the limit below can help.</string>
     <string name="backup_excluded_info">UniFetcher\'s data is never included in Google backups or transfers to a new phone.</string>
     <string name="delete_info">Remove?</string>
     <string name="delete_info_msg">Remove \"%1$s\" from your download history for good?

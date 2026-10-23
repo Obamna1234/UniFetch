@@ -815,7 +815,7 @@ private fun StorageLowBanner() {
                 color = MaterialTheme.colorScheme.onErrorContainer,
             )
             Text(
-                text = stringResource(R.string.storage_low_text),
+                text = StorageGuard.lowMessage(LocalContext.current),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onErrorContainer,
                 modifier = Modifier.padding(top = 4.dp),

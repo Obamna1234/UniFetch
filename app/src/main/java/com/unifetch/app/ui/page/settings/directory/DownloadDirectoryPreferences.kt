@@ -24,6 +24,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DataUsage
+import androidx.compose.material.icons.outlined.Storage
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.material3.TextButton
+import com.unifetch.app.ui.component.PreferenceSingleChoiceItem
+import com.unifetch.app.util.StorageGuard
+import com.unifetch.app.util.STORAGE_MIN_FREE
+import com.unifetch.app.util.PreferenceUtil.updateLong
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.filled.SdCardAlert
 import androidx.compose.material.icons.outlined.Folder
@@ -167,6 +175,8 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
     var customCommandDirectory by COMMAND_DIRECTORY.stringState
 
     var sdcardDownload by remember { mutableStateOf(SDCARD_DOWNLOAD.getBoolean()) }
+    var storageLimit by remember { mutableLongStateOf(StorageGuard.minFreeBytes()) }
+    var showStorageLimitDialog by remember { mutableStateOf(false) }
 
     var showClearTempDialog by remember { mutableStateOf(false) }
     var showCustomCommandDirectoryDialog by remember { mutableStateOf(false) }
@@ -235,6 +245,33 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
         if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted)
             launcher.launch(null)
         else storagePermission.launchPermissionRequest()
+    }
+
+    if (showStorageLimitDialog) {
+        AlertDialog(
+            onDismissRequest = { showStorageLimitDialog = false },
+            icon = { Icon(Icons.Outlined.DataUsage, contentDescription = null) },
+            title = { Text(stringResource(R.string.storage_limit)) },
+            text = {
+                Column {
+                    StorageGuard.LIMIT_OPTIONS.forEach { option ->
+                        PreferenceSingleChoiceItem(
+                            text = StorageGuard.limitText(context, option),
+                            selected = storageLimit == option,
+                        ) {
+                            storageLimit = option
+                            STORAGE_MIN_FREE.updateLong(option)
+                            showStorageLimitDialog = false
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showStorageLimitDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+        )
     }
 
     Scaffold(
@@ -334,6 +371,28 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
                     icon = Icons.Outlined.SdCard,
                     onClick = { openDirectoryChooser(Directory.SDCARD) },
                 )
+            }
+            item {
+                // Recomputed when the drive option or folder changes.
+                val status = remember(sdcardDownload, sdcardUri) { StorageGuard.statusText(context) }
+                PreferenceItem(
+                    title = stringResource(R.string.storage_status),
+                    description = status,
+                    icon = Icons.Outlined.Storage,
+                )
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.storage_limit),
+                    description =
+                        stringResource(
+                            R.string.storage_limit_desc,
+                            StorageGuard.limitText(context, storageLimit),
+                        ),
+                    icon = Icons.Outlined.DataUsage,
+                ) {
+                    showStorageLimitDialog = true
+                }
             }
             item {
                 PreferenceItem(

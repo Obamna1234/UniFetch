@@ -2,6 +2,14 @@
 
 All notable changes to UniFetcher (called UniFetch before v0.1.2) are listed here, newest first. Version numbers follow [Semantic Versioning](https://semver.org/).
 
+## v0.1.5 - 2026-10-23
+
+### Storage
+
+- **Settings → Download directory** now shows where downloads are saved while downloading: straight onto your SD card or USB drive, or on the phone first because the phone doesn't allow writing straight to that drive, with the free space
+- New setting **Pause downloads when free space is below**: 2 GB (default), 1 GB, 500 MB or Off. Lowering it takes effect within 30 seconds
+- The "storage almost full" warning now says which storage is low, how much is left, and where to change the limit
+
 ## v0.1.4 - 2026-10-23
 
 ### Downloads go straight to your SD card or USB drive

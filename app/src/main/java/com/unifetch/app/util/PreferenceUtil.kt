@@ -131,6 +131,7 @@ const val APP_LOCK_BIOMETRIC = "app_lock_biometric"
 const val APP_LOCK_TIMEOUT = "app_lock_timeout"
 const val SECURE_SCREEN = "secure_screen"
 const val NOTIFICATION_DISCREET = "notification_discreet"
+const val STORAGE_MIN_FREE = "storage_min_free"
 
 private const val INTERVAL_DAY = 86_400_000L
 private const val INTERVAL_WEEK = 86_400_000L * 7
@@ -263,7 +264,11 @@ private val IntPreferenceDefaults =
     )
 
 private val LongPreferenceDefaults =
-    mapOf(YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL, APP_LOCK_TIMEOUT to 60_000L)
+    mapOf(
+        YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL,
+        APP_LOCK_TIMEOUT to 60_000L,
+        STORAGE_MIN_FREE to 2L * 1024 * 1024 * 1024,
+    )
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
 
